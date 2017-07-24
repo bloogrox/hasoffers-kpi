@@ -1,0 +1,8 @@
+[
+  {"model": "stats.TriggerKey", "fields": {"key": "MIN_CR"}},
+  {"model": "stats.TriggerKey", "fields": {"key": "MAX_CR"}},
+  {"model": "stats.TriggerKey", "fields": {"key": "PACC"}},
+  {"model": "stats.TriggerKey", "fields": {"key": "CLICKS_ZERO_CONV"}},
+  {"model": "stats.TriggerKey", "fields": {"key": "CAP_FILL"}},
+  {"model": "stats.TriggerKey", "fields": {"key": "MIN_GR"}}
+]

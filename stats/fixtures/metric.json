@@ -1,0 +1,7 @@
+[
+  {"model": "stats.metric", "pk": 1, "fields": {"key": "cr"}},
+  {"model": "stats.metric", "pk": 2, "fields": {"key": "pacc"}},
+  {"model": "stats.metric", "pk": 3, "fields": {"key": "gtr"}},
+  {"model": "stats.metric", "pk": 4, "fields": {"key": "clicks_zero_conv"}},
+  {"model": "stats.metric", "pk": 5, "fields": {"key": "cap_fill"}}
+]
