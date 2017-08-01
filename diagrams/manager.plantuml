@@ -1,0 +1,8 @@
+@startuml
+
+actor Manager
+rectangle "admin dashboard" as kpi
+
+Manager -> kpi: moderates thresholds for kpi's
+
+@enduml

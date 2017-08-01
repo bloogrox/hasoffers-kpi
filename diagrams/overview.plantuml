@@ -1,0 +1,12 @@
+@startuml
+
+actor Affiliate
+rectangle hasoffers
+rectangle "KPI" as kpi
+
+note bottom of kpi: analyzes reports for affiliates
+hasoffers -> kpi: get reports
+kpi -> Affiliate: send email
+' kpi .. n
+
+@enduml
