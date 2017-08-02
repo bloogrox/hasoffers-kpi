@@ -8,7 +8,7 @@ def persist_goal(data):
     """
 
     Args:
-        data: Dict with fields id, name, offer_id 
+        data: Dict with fields id, name, offer_id
     """
     try:
         Goal.objects.get(pk=data['id'])

@@ -8,10 +8,11 @@ def persist_affiliate_cap(data):
     """
 
     Args:
-        data: Dict with fields offer_id, affiliate_id, conversion_cap 
+        data: Dict with fields offer_id, affiliate_id, conversion_cap
     """
     try:
-        db_cap = AffiliateCap.objects.get(offer_id=data['offer_id'], affiliate_id=data['affiliate_id'])
+        db_cap = AffiliateCap.objects.get(offer_id=data['offer_id'],
+                                          affiliate_id=data['affiliate_id'])
 
         if db_cap.conversion_cap != data['conversion_cap']:
             db_cap.conversion_cap = data['conversion_cap']

@@ -25,7 +25,7 @@ def persist_offer(data):
     """
 
     Args:
-        data: Dict with fields id, name 
+        data: Dict with fields id, name
     """
     prefs = fetch_global_preferences()
 

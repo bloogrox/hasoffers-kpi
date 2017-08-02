@@ -15,6 +15,8 @@ logger.addHandler(logging.StreamHandler(sys.stderr))
 
 class Error(Exception):
     pass
+
+
 class APIUsageExceededRateLimit(Error):
     pass
 
@@ -26,7 +28,9 @@ class Hasoffers(object):
     """
     Usage:
         client = Api(TOKEN, ID, debug=False, retry_count=1)
-        response = client.call(target='Conversion', method='findAll', params={'limit': 10, 'contain': ['Offer']})
+        response = client.call(target='Conversion', 
+                               method='findAll', 
+                               params={'limit': 10, 'contain': ['Offer']})
         response.extract_all()
 
     Short usage:
@@ -34,7 +38,9 @@ class Hasoffers(object):
         client.Conversion.findAll(limit=10, contain=['Offer']).extract_all()
 
     More examples:
-        offer = client.Offer.findById(id=1, contain=['Advertiser']).extract_one()
+        offer = (client.Offer
+                 .findById(id=1, contain=['Advertiser'])
+                 .extract_one())
 
         print(offer.name)
 
@@ -151,7 +157,7 @@ class Hasoffers(object):
         return Response(request, json_response)
 
     def cast_error(self, response_body):
-        if not 'response' in response_body or not 'status' in response_body['response']:
+        if 'response' not in response_body or 'status' not in response_body['response']:
             return Error('Unexpected error: %r' % response_body)
         if 'API usage exceeded rate limit' in response_body['response']['errorMessage']:
             return APIUsageExceededRateLimit(response_body['response']['errorMessage'])

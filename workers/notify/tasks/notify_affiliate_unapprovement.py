@@ -56,7 +56,8 @@ def notify_affiliate_unapprovement(trigger):
                         "{offer-id}": str(trigger.offer_id),
                         "{offer-name}": offer.name,
                         "{offer-preview-url}": offer.preview_url,
-                        "{offer-icon-url}": offer.Thumbnail['thumbnail'] if offer.Thumbnail else '',
+                        "{offer-icon-url}": (offer.Thumbnail['thumbnail']
+                                             if offer.Thumbnail else ''),
                         "{message}": txt,
                         "{pause-time}": now.strftime("%d/%m/%Y %H:%M UTC")
                     },
@@ -70,6 +71,8 @@ def notify_affiliate_unapprovement(trigger):
 
         res = sg.client.mail.send.post(request_body=data)
 
-        print(f'worker=notify_affiliate_unapprovement affiliate_id={trigger.affiliate_id} offer_id={trigger.offer_id} trigger_id={trigger.id}')
+        print(f'worker=notify_affiliate_unapprovement '
+              f'affiliate_id={trigger.affiliate_id} offer_id={trigger.offer_id} '
+              f'trigger_id={trigger.id}')
 
         return str(res)
