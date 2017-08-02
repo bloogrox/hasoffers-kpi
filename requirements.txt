@@ -28,3 +28,4 @@ tabulate==0.7.7
 Werkzeug==0.12.1
 celery==4.0.2
 django-celery-results==1.0.1
+flake8==3.4.1
