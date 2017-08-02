@@ -15,6 +15,12 @@
 
     docker exec <container id> python manage.py migrate
 
+#### Fixtures
+
+    docker exec <container id> python manage.py loaddata metric
+    docker exec <container id> python manage.py loaddata trigger_key
+    docker exec <container id> python manage.py loaddata action_type
+
 #### Diagrams
 
 ![Overview](https://g.gravizo.com/source/svg?https://raw.githubusercontent.com/bloogrox/hasoffers-kpi/master/diagrams/overview.plantuml)
