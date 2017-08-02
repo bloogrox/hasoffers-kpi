@@ -1,0 +1,28 @@
+machine:
+  python:
+    version: 3.6.0
+
+  services:
+    - rabbitmq-server
+
+  environment:
+    ENV_TYPE: ci
+    DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
+    AMQP_URI: "amqp://guest:guest@127.0.0.1/"
+    NETWORK_DOMAIN: "..."
+
+dependencies:
+  post:
+    - pip install flake8
+
+
+test:
+  override:
+    - flake8
+
+
+deployment:
+  prod:
+    branch: master
+    heroku:
+      appname: hasoffers-kpi
