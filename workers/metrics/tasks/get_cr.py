@@ -2,6 +2,7 @@ import pytz
 import datetime
 from functional import seq
 from kpi_notificator import celery_app
+import celery_pubsub
 
 from hasoffers import Hasoffers
 from funcutils import update_in, assoc
@@ -87,6 +88,6 @@ def get_cr():
         metric_log.metric = metric
         metric_log.value = row['value']
         metric_log.save()
+        
+        celery_pubsub.publish('metric.loaded', data=metric_log)
 
-        min_cr_trigger.delay(metric_log)
-        max_cr_trigger.delay(metric_log)
