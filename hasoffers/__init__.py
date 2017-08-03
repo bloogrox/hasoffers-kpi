@@ -28,8 +28,8 @@ class Hasoffers(object):
     """
     Usage:
         client = Api(TOKEN, ID, debug=False, retry_count=1)
-        response = client.call(target='Conversion', 
-                               method='findAll', 
+        response = client.call(target='Conversion',
+                               method='findAll',
                                params={'limit': 10, 'contain': ['Offer']})
         response.extract_all()
 
@@ -242,5 +242,3 @@ class RequestIterator(object):
             return self.request.master.send_request(self.request)
         else:
             raise StopIteration
-
-

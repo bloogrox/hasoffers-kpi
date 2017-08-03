@@ -1,5 +1,5 @@
 import sendgrid
-from sendgrid.helpers.mail import *
+from sendgrid.helpers.mail import *  # noqa
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -42,7 +42,6 @@ class Command(BaseCommand):
         print(response.status_code)
         print(response.body)
         print(response.headers)
-
 
         to_email2 = Email("a@adsynergy.ru")
         mail2 = Mail(from_email, subject, to_email2, content)

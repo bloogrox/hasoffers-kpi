@@ -1,1 +1,1 @@
-from .receivers import on_trigger
+# from .receivers import on_trigger

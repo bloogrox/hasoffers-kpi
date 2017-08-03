@@ -37,7 +37,7 @@ class MetricAdmin(admin.ModelAdmin):
 
 @admin.register(stats.models.MetricLog)
 class MetricLogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'datetime', 'metric', 'value', 'offer_id', 'affiliate_id')
+    list_display = ('id', 'datetime', 'metric', 'value', 'offer_id', 'affiliate_id',)
     list_filter = ('metric',)
     search_fields = ('metric__key', 'offer_id', 'affiliate_id',)
 
