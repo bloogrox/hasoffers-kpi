@@ -25,7 +25,7 @@ def min_cr_trigger(metric):
             trigger.save()
         except Trigger.DoesNotExist:
             new_values = {
-                'key': rigger.KEY_MIN_CR,
+                'key': Trigger.KEY_MIN_CR,
                 'offer_id': metric.offer_id,
                 'affiliate_id': affiliate_id,
                 'value': metric.value,
@@ -34,7 +34,8 @@ def min_cr_trigger(metric):
             new_trigger = Trigger(**new_values)
             new_trigger.save()
 
-            notify_manager.delay(new_trigger)
+            #10 Subscribe notify manager.
+            celery_pubsub.publish('trigger.loaded', data=new_trigger)
 
             trigger_signal.send(sender=None, trigger=new_trigger)
 
