@@ -1,5 +1,5 @@
 import sendgrid
-from sendgrid.helpers.mail import *
+from sendgrid.helpers.mail import *  # noqa
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
