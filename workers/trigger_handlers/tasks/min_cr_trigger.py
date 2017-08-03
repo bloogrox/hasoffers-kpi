@@ -1,5 +1,6 @@
 from kpi_notificator import celery_app
-from stats.models import Trigger, Offer
+import celery_pubsub
+from stats.models import Trigger, TriggerCondition, Offer
 from workers.notify.tasks.notify_manager import notify_manager
 from stats.signals import trigger as trigger_signal
 
@@ -8,8 +9,10 @@ from stats.signals import trigger as trigger_signal
 def min_cr_trigger(metric):
 
     offer = Offer.objects.get(pk=metric.offer_id)
-
-    if metric.value < offer.min_cr:
+    trigger_condition = TriggerCondition.objects.get(active=True, metric__key=metric.key)
+    op = operator.lt if trigger_condition.operator == 'lt' else operator.gt
+    
+    if op(metric.value, offer.min_cr):
         try:
             filters = dict(
                 key=Trigger.KEY_MIN_CR,
@@ -21,14 +24,18 @@ def min_cr_trigger(metric):
             trigger.status = Trigger.PROBLEM
             trigger.save()
         except Trigger.DoesNotExist:
-            new_trigger = Trigger()
-            new_trigger.key = Trigger.KEY_MIN_CR
-            new_trigger.offer_id = metric.offer_id
-            new_trigger.affiliate_id = metric.affiliate_id
-            new_trigger.value = metric.value
-            new_trigger.status = Trigger.PROBLEM
+            new_values = {
+                'key': rigger.KEY_MIN_CR,
+                'offer_id': metric.offer_id,
+                'affiliate_id': affiliate_id,
+                'value': metric.value,
+                'status': Trigger.PROBLEM
+            }
+            new_trigger = Trigger(**new_values)
             new_trigger.save()
 
             notify_manager.delay(new_trigger)
 
             trigger_signal.send(sender=None, trigger=new_trigger)
+
+celery_pubsub.subscribe('metric.loaded', min_cr_trigger)
