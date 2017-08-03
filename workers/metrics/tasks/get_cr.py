@@ -19,7 +19,31 @@ def cr(clicks, conversions):
         return 0
 
 
-def get_stats():
+def get_stats() -> list:
+    """
+    @returns
+    Example:
+    ```
+        [
+            {
+                "Stat": {
+                    "conversions": "-194",
+                    "clicks": "0",
+                    "offer_id": "1650",
+                    "affiliate_id": "4358"
+                }
+            },
+            {
+                "Stat": {
+                    "conversions": "-153",
+                    "clicks": "0",
+                    "offer_id": "2966",
+                    "affiliate_id": "7984"
+                }
+            }
+        ]
+    ```
+    """
     from_date = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE)) - datetime.timedelta(days=1)
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
@@ -31,15 +55,15 @@ def get_stats():
                  'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': str(from_date.date())},
                  'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': from_date.hour}},
         limit=10000)
-    return response
+    return response.data['data']
 
 
 @celery_app.task
 def get_cr():
 
-    res = get_stats()
+    data = get_stats()
 
-    out = (seq(res.data['data'])
+    out = (seq(data)
            .map(lambda row: row['Stat'])
            .filter(lambda row: int(row['clicks']) >= get_offer_min_clicks(row['offer_id']))
            .filter(lambda row: offer_exists_and_monitoring_true(row['offer_id']))
