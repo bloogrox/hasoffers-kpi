@@ -1,25 +1,25 @@
 #### Install dependencies
 
-    pip intsall -r requirements.txt
+    $ pip intsall -r requirements.txt
 
 #### Local settings
 
-    cd kpi_notificator/settings
-    cp local.sample.py local.py
+    $ cd kpi_notificator/settings
+    $ cp local.sample.py local.py
 
 #### Run services and web server
 
-    docker-compose up
+    $ docker-compose up
 
 #### Migrations
 
-    docker exec <container id> python manage.py migrate
+    $ docker exec <container id> python manage.py migrate
 
 #### Fixtures
 
-    docker exec <container id> python manage.py loaddata metric
-    docker exec <container id> python manage.py loaddata trigger_key
-    docker exec <container id> python manage.py loaddata action_type
+    $ docker exec <container id> python manage.py loaddata metric
+    $ docker exec <container id> python manage.py loaddata trigger_key
+    $ docker exec <container id> python manage.py loaddata action_type
 
 #### Diagrams
 
