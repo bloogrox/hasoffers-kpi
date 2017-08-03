@@ -1,5 +1,5 @@
-from .base import *
-import os
+from .base import os
+# import os
 import dj_database_url
 
 

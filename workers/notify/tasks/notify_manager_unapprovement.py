@@ -15,7 +15,7 @@ def notify_manager_unapprovement(trigger):
     html = f"""
     <p>
         Offer id: {trigger.offer_id};
-        Affiliate id: {trigger.affiliate_id}
+        Affiliate id: {trigger.affiliate_id};
         Key: {trigger.key};
         Value: {trigger.value};
     </p>
@@ -38,7 +38,7 @@ def notify_manager_unapprovement(trigger):
     affiliate = api.Affiliate.findById(id=trigger.affiliate_id).extract_one()
     employee = models.Employee.objects.get(pk=affiliate.account_manager_id)
 
-    email_address = (employee.email 
+    email_address = (employee.email
                      if not employee.use_secondary
                      else employee.secondary_email)
     to_email = Email(email_address)

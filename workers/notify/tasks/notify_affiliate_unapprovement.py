@@ -71,8 +71,6 @@ def notify_affiliate_unapprovement(trigger):
 
         res = sg.client.mail.send.post(request_body=data)
 
-        print(f'worker=notify_affiliate_unapprovement '
-              f'affiliate_id={trigger.affiliate_id} offer_id={trigger.offer_id} '
-              f'trigger_id={trigger.id}')
+        print(f'worker=notify_affiliate_unapprovement ' f'affiliate_id={trigger.affiliate_id}offer_id={trigger.offer_id} 'f'trigger_id={trigger.id}')
 
         return str(res)

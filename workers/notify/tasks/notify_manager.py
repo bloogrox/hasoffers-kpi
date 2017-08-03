@@ -21,8 +21,7 @@ def notify_manager(trigger):
     </p>
 
     <p>
-        <div>
-            <a href="{settings.SITE_URL}/notify-affiliate/?trigger_id={trigger.id}" target="_blank">notify affiliate</a></div>
+        <div><a href="{settings.SITE_URL}/notify-affiliate/?trigger_id={trigger.id}" target="_blank">notify affiliate</a></div>
         <div><a href="{settings.SITE_URL}/unapprove-affiliate/?trigger_id={trigger.id}" target="_blank">unapprove affiliate now</a></div>
     </p>
     """

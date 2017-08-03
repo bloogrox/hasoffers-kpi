@@ -55,7 +55,8 @@ def notify_affiliate(trigger):
                         "{today}": today,
                         "{offer-id}": str(offer.id),
                         "{offer-name}": offer.name,
-                        "{offer-icon-url}": offer.Thumbnail['thumbnail'] if offer.Thumbnail else '',
+                        "{offer-icon-url}": offer.Thumbnail['thumbnail']
+                        if offer.Thumbnail else '',
                         "{offer-preview-url}": offer.preview_url
                     },
                 },
@@ -68,6 +69,5 @@ def notify_affiliate(trigger):
 
         res = sg.client.mail.send.post(request_body=data)
 
-        print(f'worker=notify_affiliate affiliate_id={trigger.affiliate_id} offer_id={trigger.offer_id} trigger_id={trigger.id}')
-
+        print(f'worker=notify_affiliate affiliate_id={trigger.affiliate_id}offer_id={trigger.offer_id}trigger_id={trigger.id} ')
         return str(res)

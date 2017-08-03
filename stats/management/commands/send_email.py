@@ -43,7 +43,6 @@ class Command(BaseCommand):
         print(response.body)
         print(response.headers)
 
-
         to_email2 = Email("a@adsynergy.ru")
         mail2 = Mail(from_email, subject, to_email2, content)
         response = sg.client.mail.send.post(request_body=mail2.get())
