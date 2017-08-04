@@ -1,6 +1,9 @@
+from stats.models import Trigger
 from django.dispatch import receiver
-from stats.signals import trigger as trigger_signal
-from stats.signals import offer_does_not_exist
+from stats.signals.signals import trigger as trigger_signal
+from stats.signals.signals import offer_does_not_exist
+from django.db.models.signals import pre_save
+
 
 
 @receiver(trigger_signal)
@@ -13,6 +16,18 @@ def on_trigger(sender, trigger, **kwargs):
         notify_affiliate(trigger)
     elif offer.action == Offer.ACTION_PAUSE_IMMEDIATELY:
         unapprove_affiliate(trigger)
+
+
+@receiver(pre_save, sender=Trigger)
+def on_changed(sender, instance, **kwargs):
+    try:
+        obj = sender.objects.get(event=instance.event)
+    except sender.DoesNotExist:
+        pass  # Object is new, so field hasn't technically
+        # changed, but you may want to do something else here.
+    else:
+        if not obj.ok == instance.ok:  # Field has changed
+            print('changed')
 
 
 @receiver(trigger_signal)

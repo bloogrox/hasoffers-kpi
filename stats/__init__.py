@@ -1,1 +1,1 @@
-from .receivers import on_trigger
+# from stats.signals.receivers import on_trigger
