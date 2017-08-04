@@ -4,8 +4,7 @@
 
 #### Local settings
 
-    $ cd kpi_notificator/settings
-    $ cp local.sample.py local.py
+    $ cp contrib/local.sample.py kpi_notificator/settings/local.py
 
 #### Run services and web server
 
