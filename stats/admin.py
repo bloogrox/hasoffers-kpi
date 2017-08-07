@@ -48,6 +48,12 @@ class TriggerAdmin(admin.ModelAdmin):
     search_fields = ('id', 'key', 'offer_id', 'affiliate_id',)
 
 
+@admin.register(stats.models.TriggerCondition)
+class TriggerConditionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'metric', 'operator', 'active',)
+    list_filter = ('metric', 'active',)
+
+
 @admin.register(stats.models.AffiliateCap)
 class AffiliateCapAdmin(admin.ModelAdmin):
     list_display = ('offer_id', 'affiliate_id', 'conversion_cap')
