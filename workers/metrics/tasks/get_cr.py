@@ -44,7 +44,8 @@ def get_stats() -> list:
         ]
     ```
     """
-    from_date = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE)) - datetime.timedelta(days=1)
+    from_date = (datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+                 - datetime.timedelta(days=1))
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
                     proxies=settings.PROXIES)
@@ -52,8 +53,10 @@ def get_stats() -> list:
         fields=['Stat.clicks', 'Stat.conversions'],
         groups=['Stat.offer_id', 'Stat.affiliate_id'],
         filters={'Stat.goal_id': {'conditional': 'EQUAL_TO', 'values': 0},
-                 'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': str(from_date.date())},
-                 'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': from_date.hour}},
+                 'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO',
+                               'values': str(from_date.date())},
+                 'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO',
+                               'values': from_date.hour}},
         limit=10000)
     return response.data['data']
 
@@ -65,11 +68,14 @@ def get_cr():
 
     out = (seq(data)
            .map(lambda row: row['Stat'])
-           .filter(lambda row: int(row['clicks']) >= get_offer_min_clicks(row['offer_id']))
-           .filter(lambda row: offer_exists_and_monitoring_true(row['offer_id']))
+           .filter(lambda row: (
+               int(row['clicks']) >= get_offer_min_clicks(row['offer_id'])))
+           .filter(lambda row: (
+               offer_exists_and_monitoring_true(row['offer_id'])))
            .map(lambda row: update_in(row, ['clicks'], int))
            .map(lambda row: update_in(row, ['conversions'], int))
-           .map(lambda row: assoc(row, 'value', cr(row['clicks'], row['conversions'])))
+           .map(lambda row: (
+               assoc(row, 'value', cr(row['clicks'], row['conversions']))))
            .to_list())
 
     metric = Metric.objects.get(key='cr')

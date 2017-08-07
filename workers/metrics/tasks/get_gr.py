@@ -36,17 +36,22 @@ def fetch_active_offers():
 
 
 def get_stats(offer_id, goal_id, lookback):
-    from_date = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE)) - datetime.timedelta(days=lookback)
+    from_date = (datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+                 - datetime.timedelta(days=lookback))
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
                     proxies=settings.PROXIES)
     response = api.Report.getStats(
         fields=['Stat.conversions'],
         groups=['Stat.offer_id', 'Stat.affiliate_id', 'Stat.goal_id'],
-        filters={'Stat.offer_id': {'conditional': 'EQUAL_TO', 'values': offer_id},
-                 'Stat.goal_id': {'conditional': 'EQUAL_TO', 'values': [0, goal_id]},
-                 'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': str(from_date.date())},
-                 'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': from_date.hour}},
+        filters={'Stat.offer_id': {'conditional': 'EQUAL_TO',
+                                   'values': offer_id},
+                 'Stat.goal_id': {'conditional': 'EQUAL_TO',
+                                  'values': [0, goal_id]},
+                 'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO',
+                               'values': str(from_date.date())},
+                 'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO',
+                               'values': from_date.hour}},
         limit=10000)
 
     out = (seq(response.data['data'])
@@ -95,21 +100,33 @@ def get_gr():
                .map(lambda row: update_in(row, ['affiliate_id'], int))
                .to_list())
 
-        conversions = seq(out).filter(lambda r: r['goal_id'] == 0).to_list()  # [{aff_id, conversions, goal_id}]
-        goals = seq(out).filter(lambda r: r['goal_id'] == offer.one_goal_id).to_list()
+        conversions = seq(out).filter(lambda r: r['goal_id'] == 0).to_list()
+        goals = (seq(out)
+                 .filter(lambda r: r['goal_id'] == offer.one_goal_id)
+                 .to_list())
 
         # filter min_conversions
-        conversions = seq(conversions).filter(lambda r: r['conversions'] >= offer.min_conversions).to_list()
+        conversions = (
+            seq(conversions)
+            .filter(lambda r: r['conversions'] >= offer.min_conversions)
+            .to_list()
+        )
 
         # populate with goal count
-        conversions = (seq(conversions)
-                       .map(lambda r: assoc(r, 'goals', get_goals_count(r['affiliate_id'], goals)))
-                       .to_list())
+        conversions = (
+            seq(conversions)
+            .map(lambda r: assoc(r, 'goals',
+                                 get_goals_count(r['affiliate_id'], goals)))
+            .to_list()
+        )
 
         # populate with gr value
-        conversions = (seq(conversions)
-                       .map(lambda r: assoc(r, 'value', gr(r['conversions'], r['goals'])))
-                       .to_list())
+        conversions = (
+            seq(conversions)
+            .map(lambda r: assoc(r, 'value',
+                                 gr(r['conversions'], r['goals'])))
+            .to_list()
+        )
 
         # create metric
         metric = Metric.objects.get(key='gtr')

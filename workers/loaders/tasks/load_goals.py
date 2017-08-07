@@ -21,5 +21,6 @@ def load_goals():
     resp = api.Goal.findAll(**params)
 
     for ho_goal in resp.extract_all():
-        goal = {'id': ho_goal.id, 'name': ho_goal.name, 'offer_id': ho_goal.offer_id}
+        goal = {'id': ho_goal.id, 'name': ho_goal.name,
+                'offer_id': ho_goal.offer_id}
         persist_goal.delay(goal)

@@ -9,7 +9,8 @@ from stats.models import Metric, MetricLog, AffiliateCap
 
 def get_conversion_cap(offer_id, affiliate_id):
     try:
-        cap = AffiliateCap.objects.get(offer_id=offer_id, affiliate_id=affiliate_id)
+        cap = AffiliateCap.objects.get(offer_id=offer_id,
+                                       affiliate_id=affiliate_id)
         return cap.conversion_cap
     except AffiliateCap.DoesNotExist:
         return 0
@@ -25,7 +26,8 @@ def get_stats(lookback):
     from hasoffers import Hasoffers
     from django.conf import settings
 
-    from_date = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE)) - datetime.timedelta(days=lookback)
+    from_date = (datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+                 - datetime.timedelta(days=lookback))
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
                     proxies=settings.PROXIES)
@@ -33,8 +35,10 @@ def get_stats(lookback):
         fields=['Stat.conversions'],
         groups=['Stat.offer_id', 'Stat.affiliate_id'],
         filters={'Stat.goal_id': {'conditional': 'EQUAL_TO', 'values': 0},
-                 'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': str(from_date.date())},
-                 'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': from_date.hour}},
+                 'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO',
+                               'values': str(from_date.date())},
+                 'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO',
+                               'values': from_date.hour}},
         limit=10000)
     return res
 
@@ -48,11 +52,17 @@ def get_capfill():
     out = (seq(res.data['data'])
            .map(lambda row: row['Stat'])
            # .filter(lambda row: int(row['clicks']) >= min_clicks)
-           .filter(lambda row: offer_exists_and_monitoring_true(row['offer_id']))
+           .filter(lambda row: (
+               offer_exists_and_monitoring_true(row['offer_id'])))
            .map(lambda row: update_in(row, ['conversions'], int))
-           .map(lambda row: assoc(row, 'conversion_cap', get_conversion_cap(row['offer_id'], row['affiliate_id'])))
+           .map(lambda row: (
+               assoc(row, 'conversion_cap',
+                     get_conversion_cap(row['offer_id'],
+                                        row['affiliate_id']))))
            .filter(lambda row: row['conversion_cap'] > 0)
-           .map(lambda row: assoc(row, 'value', (row['conversions'] / prefs['lookback']) / row['conversion_cap']))
+           .map(lambda row: (
+               assoc(row, 'value', ((row['conversions'] / prefs['lookback'])
+                                    / row['conversion_cap']))))
            .to_list())
 
     metric = Metric.objects.get(key='cap_fill')

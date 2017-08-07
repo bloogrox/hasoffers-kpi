@@ -4,7 +4,8 @@ from kpi_notificator import celery_app
 from hasoffers import Hasoffers
 from funcutils import update_in
 from django.conf import settings
-from workers.persisters.tasks.persist_affiliate_cap import persist_affiliate_cap
+from workers.persisters.tasks.persist_affiliate_cap import (
+    persist_affiliate_cap)
 
 
 @celery_app.task
@@ -22,7 +23,9 @@ def load_offer_caps(offer_id):
                .map(lambda r: update_in(r, ['offer_id'], int))
                .map(lambda r: update_in(r, ['affiliate_id'], int))
                .map(lambda r: update_in(r, ['conversion_cap'], int))
-               .map(lambda r: dict(offer_id=r['offer_id'], affiliate_id=r['affiliate_id'], conversion_cap=r['conversion_cap']))
+               .map(lambda r: dict(offer_id=r['offer_id'],
+                                   affiliate_id=r['affiliate_id'],
+                                   conversion_cap=r['conversion_cap']))
                .to_list()
                )
 

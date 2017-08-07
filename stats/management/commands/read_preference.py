@@ -1,9 +1,9 @@
 from django.core.management.base import BaseCommand
 from dynamic_preferences.registries import global_preferences_registry
-
-# We instantiate a manager for our global preferences
-global_preferences = global_preferences_registry.manager()
 from stats import dynamic_preferences_registry as preferences
+
+
+global_preferences = global_preferences_registry.manager()
 
 
 class Command(BaseCommand):

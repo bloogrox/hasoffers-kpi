@@ -5,7 +5,8 @@ from kpi_notificator import celery_app
 
 from hasoffers import Hasoffers
 from funcutils import update_in, assoc
-from workers.trigger_handlers.tasks.clicks_if_zero_conv_trigger import clicks_if_zero_conv_trigger
+from workers.trigger_handlers.tasks.clicks_if_zero_conv_trigger import (
+    clicks_if_zero_conv_trigger)
 from stats.models import Metric, MetricLog
 from django.conf import settings
 from ..utils import offer_exists_and_monitoring_true, get_offer_min_clicks
@@ -17,19 +18,24 @@ def get_clicks_if_zero_conv():
                     network_id=settings.HASOFFERS_NETWORK_ID,
                     proxies=settings.PROXIES)
 
-    from_date = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE)) - datetime.timedelta(days=1)
+    from_date = (datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+                 - datetime.timedelta(days=1))
 
     res = api.Report.getStats(
         fields=['Stat.clicks', 'Stat.conversions'],
         groups=['Stat.offer_id', 'Stat.affiliate_id'],
-        filters={'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': str(from_date.date())},
-                 'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO', 'values': from_date.hour}},
+        filters={'Stat.date': {'conditional': 'GREATER_THAN_OR_EQUAL_TO',
+                               'values': str(from_date.date())},
+                 'Stat.hour': {'conditional': 'GREATER_THAN_OR_EQUAL_TO',
+                               'values': from_date.hour}},
         limit=10000)
 
     out = (seq(res.data['data'])
            .map(lambda row: row['Stat'])
-           .filter(lambda row: int(row['clicks']) >= get_offer_min_clicks(row['offer_id']))
-           .filter(lambda row: offer_exists_and_monitoring_true(row['offer_id']))
+           .filter(lambda row: (
+               int(row['clicks']) >= get_offer_min_clicks(row['offer_id'])))
+           .filter(lambda row: (
+               offer_exists_and_monitoring_true(row['offer_id'])))
            .map(lambda row: update_in(row, ['conversions'], int))
            .map(lambda row: update_in(row, ['clicks'], int))
            .filter(lambda row: row['conversions'] == 0)
