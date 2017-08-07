@@ -26,7 +26,8 @@ def update_active_offers():
                 map(
                     int,
                     list(dict(offer.OfferCategory).keys()))))
-        is_incent = bool(set(offer_categories_id) & set(settings.INCENT_CATEGORIES))
+        is_incent = bool(set(offer_categories_id)
+                         & set(settings.INCENT_CATEGORIES))
 
         try:
             db_offer = Offer.objects.get(pk=offer.id)

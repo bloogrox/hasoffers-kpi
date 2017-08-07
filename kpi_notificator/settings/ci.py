@@ -13,6 +13,7 @@ ALLOWED_HOSTS = [
     'localhost'
 ]
 
+DATABASE_URL = os.environ['DATABASE_URL']
 
 DATABASES = {
     'default': dj_database_url.config(

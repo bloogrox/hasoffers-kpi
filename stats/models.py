@@ -31,13 +31,19 @@ class Offer(models.Model):
     name = models.TextField()
     incent = models.BooleanField(default=False)
     monitoring = models.BooleanField(default=True)
-    notify_affiliate = models.BooleanField('Notify Affiliate?', default=False)
-    action = models.CharField(max_length=30, choices=ACTIONS, default=ACTION_OFF)
-    gr = models.FloatField(verbose_name='Minimal Goal Conversion Threshold', default=0.0, blank=True, null=True)
-    one_goal = models.ForeignKey('Goal', related_name='main_offer', blank=True, null=True, default=None)
+    notify_affiliate = models.BooleanField('Notify Affiliate?',
+                                           default=False)
+    action = models.CharField(max_length=30, choices=ACTIONS,
+                              default=ACTION_OFF)
+    gr = models.FloatField(verbose_name='Minimal Goal Conversion Threshold',
+                           default=0.0, blank=True, null=True)
+    one_goal = models.ForeignKey('Goal', related_name='main_offer',
+                                 blank=True, null=True, default=None)
 
-    min_conversions = models.PositiveIntegerField(verbose_name='Min Conversions', default=0)
-    lookback = models.PositiveIntegerField(verbose_name='Lookback Period (days)', default=1)
+    min_conversions = models.PositiveIntegerField(
+        verbose_name='Min Conversions', default=0)
+    lookback = models.PositiveIntegerField(
+        verbose_name='Lookback Period (days)', default=1)
 
     min_cr = models.FloatField(default=.0)
     max_cr = models.FloatField(default=.0)
@@ -60,13 +66,15 @@ class Goal(models.Model):
 
 class AffiliateUser(models.Model):
     affiliate_id = models.IntegerField()
-    account_manager_id = models.IntegerField(default=None, blank=True, null=True)
+    account_manager_id = models.IntegerField(default=None, blank=True,
+                                             null=True)
     email = models.CharField(max_length=64)
 
 
 class Employee(models.Model):
     email = models.CharField(max_length=64)
-    secondary_email = models.CharField(max_length=64, blank=True, null=True, default=None)
+    secondary_email = models.CharField(max_length=64, blank=True,
+                                       null=True, default=None)
     use_secondary = models.BooleanField(default=False)
 
 
@@ -104,7 +112,8 @@ class Trigger(models.Model):
         (KEY_MIN_GR, KEY_MIN_GR),
     )
 
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
     key = models.CharField(max_length=20, choices=KEYS)
     offer_id = models.IntegerField()

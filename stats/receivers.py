@@ -34,9 +34,12 @@ def notify_affiliate(trigger):
 
 
 def unapprove_affiliate(trigger):
-    from workers.notify.tasks.notify_affiliate_unapprovement import notify_affiliate_unapprovement
-    from workers.notify.tasks.notify_manager_unapprovement import notify_manager_unapprovement
-    from workers.hasoffers_calls.tasks.unapprove_affiliate_offer import unapprove_affiliate_offer
+    from workers.notify.tasks.notify_affiliate_unapprovement import (
+        notify_affiliate_unapprovement)
+    from workers.notify.tasks.notify_manager_unapprovement import (
+        notify_manager_unapprovement)
+    from workers.hasoffers_calls.tasks.unapprove_affiliate_offer import (
+        unapprove_affiliate_offer)
 
     unapprove_affiliate_offer.delay(trigger)
     notify_affiliate_unapprovement.delay(trigger)

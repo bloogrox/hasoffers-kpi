@@ -4,9 +4,16 @@ from urllib.parse import quote
 def http_build_query(d):
 
     """
-    >>> d = {'data': {'name': 'John', 'email': 'john@johnmail.com', 'friends':['Paul', 'Alan']}}
+    >>> d = {
+                'data': {
+                    'name': 'John',
+                    'email': 'john@johnmail.com',
+                    'friends': ['Paul', 'Alan']
+                }
+            }
     >>> http_build_query(d)
-    'data[friends][]=Paul&data[friends][]=Alan&data[name]=John&data[email]=john%40johnmail.com'
+    'data[friends][]=Paul&data[friends][]=Alan&data[name]=John&'
+    'data[email]=john%40johnmail.com'
     """
 
     def combine_qs_key_from_list(l):
@@ -42,11 +49,13 @@ def http_build_query(d):
 
             elif type(value) == list:
                 for el in value:
-                    KV.append('%s[]=%s' % (combine_qs_key_from_list(new_base), quote(str(el))))
+                    KV.append('%s[]=%s' % (combine_qs_key_from_list(new_base),
+                                           quote(str(el))))
 
             else:
                 if len(base) > 0:
-                    KV.append('%s[%s]=%s' % (combine_qs_key_from_list(base), str(key), quote(str(value))))
+                    KV.append('%s[%s]=%s' % (combine_qs_key_from_list(base),
+                                             str(key), quote(str(value))))
                 else:
                     KV.append('%s=%s' % (str(key), quote(str(value))))
 

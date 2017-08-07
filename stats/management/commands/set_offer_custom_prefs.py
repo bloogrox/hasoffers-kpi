@@ -15,8 +15,11 @@ def fetch_global_preferences(incent=False):
         'max_cr': global_preferences[section + '__' + preferences.MAX_CR],
         'pacc': global_preferences[section + '__' + preferences.PACC],
         'cap_fill': global_preferences[section + '__' + preferences.CAP_FILL],
-        'clicks_if_zero_conv': global_preferences[section + '__' + preferences.CLICKS_IF_ZERO_CONV],
-        'min_clicks': global_preferences[section + '__' + preferences.MIN_CLICKS],
+        'clicks_if_zero_conv':
+            global_preferences[section + '__'
+                               + preferences.CLICKS_IF_ZERO_CONV],
+        'min_clicks':
+            global_preferences[section + '__' + preferences.MIN_CLICKS],
     }
     return prefs
 

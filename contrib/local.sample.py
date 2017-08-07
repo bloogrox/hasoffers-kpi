@@ -1,4 +1,4 @@
-from .base import *
+from .base import *  # noqa
 
 
 SECRET_KEY = '*!678w4fc%'
@@ -24,7 +24,7 @@ DATABASES = {
 }
 
 
-CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672"  # os.environ['RABBITMQ_BIGWIG_URL']
+CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672"
 
 
 HASOFFERS_NETWORK_ID = ''
