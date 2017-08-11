@@ -72,7 +72,7 @@ def offer_has_goal(offer_id):
 
 def get_goals_count(affiliate_id, data):
     res = (seq(data)
-           .filter(lambda r: r[affiliate_id] == affiliate_id)
+           .filter(lambda r: r['affiliate_id'] == affiliate_id)
            .to_list())
 
     if res:
