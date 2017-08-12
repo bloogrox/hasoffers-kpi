@@ -29,6 +29,12 @@ class Offer(models.Model):
     )
 
     name = models.TextField()
+    categories_str = models.TextField(default="")
+
+    @property
+    def categories(self):
+        return [int(cat_str) for cat_str in self.categories_str.split(',')]
+
     incent = models.BooleanField(default=False)
     monitoring = models.BooleanField(default=True)
     notify_affiliate = models.BooleanField('Notify Affiliate?',
