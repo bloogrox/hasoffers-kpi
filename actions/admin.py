@@ -14,5 +14,5 @@ class ActionAdmin(admin.ModelAdmin):
 
 
 @admin.register(Operation)
-class ActionAdmin(admin.ModelAdmin):
+class OperationAdmin(admin.ModelAdmin):
     list_display = ('id', 'key', 'title')
