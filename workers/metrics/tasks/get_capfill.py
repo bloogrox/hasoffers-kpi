@@ -45,7 +45,7 @@ def get_stats(lookback):
 
 @celery_app.task
 def get_capfill():
-
+    print("Gettings CAP stats")
     prefs = get_prefs()
     res = get_stats(prefs['lookback'])
 

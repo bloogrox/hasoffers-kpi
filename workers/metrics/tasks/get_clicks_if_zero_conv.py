@@ -13,6 +13,7 @@ from ..utils import offer_exists_and_monitoring_true, get_offer_min_clicks
 
 @celery_app.task
 def get_clicks_if_zero_conv():
+    print("Getting Clicks stats")
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
                     proxies=settings.PROXIES)

@@ -84,6 +84,7 @@ def get_goals_count(affiliate_id, data):
 @celery_app.task
 def get_gr():
 
+    print("Gettings GR stats")
     offer_ids = fetch_active_offers()
     offer_ids = list(filter(offer_exists_and_monitoring_true, offer_ids))
     offer_ids = list(filter(offer_has_goal, offer_ids))
