@@ -5,6 +5,7 @@ from kpi_notificator import celery_app
 
 from trigger.models import TriggerCheck
 from threshold.models import Threshold
+from stats.models import Offer
 
 
 @celery_app.task
@@ -13,7 +14,11 @@ def trigger_worker(trigger, metric_log):
 
     trigger_operator = getattr(operator, trigger.operator)
 
-    threshold_ = Threshold.objects.for_trigger(trigger, metric_log)
+    offer = Offer.objects.get(pk=metric_log.offer_id)
+    threshold_ = (Threshold.objects
+                  .for_trigger(trigger,
+                               metric_log,
+                               offer.categories))
 
     print(f"trigger_worker: using threshold {threshold_}")
 

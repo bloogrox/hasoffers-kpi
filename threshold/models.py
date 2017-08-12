@@ -12,16 +12,15 @@ class EntityType(models.Model):
 
 
 class ThresholdManager(models.Manager):
-    # todo: implement offer categories threshold
-    def for_trigger(self, trigger, metric_log):
+    def for_trigger(self, trigger, metric_log, offer_categories):
         threshold = (super(ThresholdManager, self).get_queryset()
                      .filter(trigger=trigger)
                      .filter(Q(entity_type__name="Affiliate",
                                entity_id=metric_log.affiliate_id) |
                              Q(entity_type__name="Offer",
                                entity_id=metric_log.offer_id) |
-                             #  Q(entity_type__name="OfferCategory",
-                             #    entity_id__in=metric.offer_categories) |
+                             Q(entity_type__name="OfferCategory",
+                               entity_id__in=offer_categories) |
                              Q(entity_type__name="General"))
                      .order_by('-entity_type__priority')
                      .first())
