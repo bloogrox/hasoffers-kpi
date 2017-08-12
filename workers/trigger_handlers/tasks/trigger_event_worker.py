@@ -17,7 +17,8 @@ def trigger_event_worker(trigger_check, metric_log, threshold_):
         for operation in action.operations.all():
             run_operation.delay(operation.key, trigger_check, metric_log)
             print(f"trigger_event_worker: Publishing Operation task "
-                  f"with args {operation.key}, {trigger_check}, {metric_log}")
+                  f"with args operation.key={operation.key}, "
+                  f"{trigger_check}, {metric_log}")
 
 
 # todo: bad place for subscribe

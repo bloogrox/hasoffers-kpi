@@ -79,6 +79,7 @@ class Employee(models.Model):
     use_secondary = models.BooleanField(default=False)
 
 
+# todo: delete
 class TriggerKey(models.Model):
     key = models.CharField(max_length=20, primary_key=True)
 
@@ -152,6 +153,7 @@ class Action(models.Model):
     action_type = models.ForeignKey(ActionType, verbose_name='Action')
 
 
+# todo: delete
 class UnapproveLog(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     offer_id = models.PositiveIntegerField()
