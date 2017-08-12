@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('action', '0004_auto_20170810_0100'),
+        ('trigger', '0001_initial')
     ]
 
     operations = [
