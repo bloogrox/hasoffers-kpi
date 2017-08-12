@@ -53,4 +53,4 @@ def notify_manager_unapprovement(trigger_check, metric_log):
           f'offer_id={metric_log.offer_id} '
           f'trigger_check_id={trigger_check.id}')
 
-    return res
+    return str(res)
