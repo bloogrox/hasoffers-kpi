@@ -6,6 +6,7 @@ from kpi_notificator import celery_app
 # from stats.signals import trigger as trigger_signal
 
 
+# todo: delete old trigger handlers
 @celery_app.task
 def min_cr_trigger(metric):
 
