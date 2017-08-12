@@ -1,0 +1,7 @@
+[
+  {"model": "actions.Operation", "fields": {"key": "email_affiliate" ,"title": "Send email to affiliate"}},
+  {"model": "actions.Operation", "fields": {"key": "email_affiliate_manager", "title": "Send email to affiliate manager"}},
+  {"model": "actions.Operation", "fields": {"key": "email_administrator", "title": "Send email to administrator"}},
+  {"model": "actions.Operation", "fields": {"key": "unapprove", "title": "Unapprove affiliate"}},
+  {"model": "actions.Operation", "fields": {"key": "approve", "title": "Approve affiliate"}}
+]

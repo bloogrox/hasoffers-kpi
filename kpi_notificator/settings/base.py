@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'email_actions',
     'mailings',
     'threshold',
-    'action',
+    'actions',
     'trigger',
 
     'dynamic_preferences',

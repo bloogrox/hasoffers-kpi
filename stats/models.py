@@ -124,13 +124,6 @@ class Trigger(models.Model):
     status = models.CharField(max_length=2, choices=STATUSES)
 
 
-class TriggerCondition(models.Model):
-    metric = models.ForeignKey(Metric)
-    name = models.CharField(max_length=64)
-    operator = models.CharField(max_length=10)
-    active = models.BooleanField(default=False)
-
-
 class AffiliateCap(models.Model):
 
     class Meta:
