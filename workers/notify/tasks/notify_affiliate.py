@@ -29,18 +29,20 @@ message_map = {
 
 
 @celery_app.task
-def notify_affiliate(trigger):
+def notify_affiliate(trigger, metric_log):
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
-    offer = fetch_offer(trigger.offer_id)
+    offer = fetch_offer(metric_log.offer_id)
 
     tz = pytz.timezone(settings.TIME_ZONE)
 
     today = datetime.datetime.now(tz=tz).strftime("%d/%m/%Y")
 
-    txt = message_map[trigger.key]
+    # txt = message_map[trigger.key]
+    txt = 'low performance'
 
-    aff_users = AffiliateUser.objects.filter(affiliate_id=trigger.affiliate_id)
+    aff_users = (AffiliateUser.objects
+                 .filter(affiliate_id=metric_log.affiliate_id))
 
     if aff_users:
         to_ = [{'email': u.email} for u in aff_users]
@@ -70,7 +72,7 @@ def notify_affiliate(trigger):
 
         res = sg.client.mail.send.post(request_body=data)
 
-        print(f'worker=notify_affiliate affiliate_id={trigger.affiliate_id} '
-              f'offer_id={trigger.offer_id} trigger_id={trigger.id}')
+        print(f'worker=notify_affiliate affiliate_id={metric_log.affiliate_id} '
+              f'offer_id={metric_log.offer_id}')
 
         return str(res)

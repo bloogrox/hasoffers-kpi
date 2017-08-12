@@ -20,7 +20,8 @@ app.autodiscover_tasks(packages=['workers.hasoffers_calls',
                                  'workers.metrics',
                                  'workers.notify',
                                  'workers.persisters',
-                                 'workers.trigger_handlers'])
+                                 'workers.trigger_handlers',
+                                 'workers.operations'])
 
 
 app.conf.beat_schedule = {

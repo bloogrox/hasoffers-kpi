@@ -17,6 +17,7 @@ def fetch_offer(offer_id):
     return offer
 
 
+# todo: refactor this
 message_map = {
     Trigger.KEY_MIN_CR: 'low CR',
     Trigger.KEY_MAX_CR: 'high CR',
@@ -27,11 +28,12 @@ message_map = {
 }
 
 
+# todo: refactor according to new input
 @celery_app.task
-def notify_affiliate_unapprovement(trigger):
+def notify_affiliate_unapprovement(trigger_check, metric_log):
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
-    offer = fetch_offer(trigger.offer_id)
+    offer = fetch_offer(metric_log.offer_id)
 
     tz = pytz.timezone(settings.TIME_ZONE)
 
@@ -39,9 +41,10 @@ def notify_affiliate_unapprovement(trigger):
 
     now = datetime.datetime.utcnow()
 
-    txt = message_map[trigger.key]
+    # txt = message_map[trigger.key]
+    txt = 'low performance'
 
-    aff_users = AffiliateUser.objects.filter(affiliate_id=trigger.affiliate_id)
+    aff_users = AffiliateUser.objects.filter(affiliate_id=metric_log.affiliate_id)
 
     if aff_users:
         to_ = [{'email': u.email} for u in aff_users]
@@ -53,7 +56,7 @@ def notify_affiliate_unapprovement(trigger):
                     "substitutions": {
                         "{firstname}": '',
                         "{today}": today,
-                        "{offer-id}": str(trigger.offer_id),
+                        "{offer-id}": str(metric_log.offer_id),
                         "{offer-name}": offer.name,
                         "{offer-preview-url}": offer.preview_url,
                         "{offer-icon-url}": (offer.Thumbnail['thumbnail']
@@ -72,8 +75,7 @@ def notify_affiliate_unapprovement(trigger):
         res = sg.client.mail.send.post(request_body=data)
 
         print(f'worker=notify_affiliate_unapprovement '
-              f'affiliate_id={trigger.affiliate_id} '
-              f'offer_id={trigger.offer_id} '
-              f'trigger_id={trigger.id}')
+              f'affiliate_id={metric_log.affiliate_id} offer_id={metric_log.offer_id} '
+              f'trigger_check_id={trigger_check.id}')
 
         return str(res)

@@ -1,5 +1,6 @@
 from functional import seq
 from kpi_notificator import celery_app
+import celery_pubsub
 
 from workers.trigger_handlers.tasks.capfill_trigger import capfill_trigger
 from funcutils import update_in, assoc
@@ -75,5 +76,4 @@ def get_capfill():
         metric_log.value = row['value']
         metric_log.save()
 
-        # run trigger worker
-        capfill_trigger.delay(metric_log)
+        celery_pubsub.publish('metric.loaded', data=metric_log)

@@ -2,6 +2,7 @@ import pytz
 import datetime
 from functional import seq
 from kpi_notificator import celery_app
+import celery_pubsub
 
 from hasoffers import Hasoffers
 from funcutils import update_in, assoc
@@ -52,4 +53,4 @@ def get_clicks_if_zero_conv():
         metric_log.value = row['value']
         metric_log.save()
 
-        clicks_if_zero_conv_trigger.delay(metric_log)
+        celery_pubsub.publish('metric.loaded', data=metric_log)

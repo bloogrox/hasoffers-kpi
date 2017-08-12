@@ -67,6 +67,9 @@ def get_cr():
 
     data = get_stats()
 
+    # todo: enqueue every row to metric processor
+    #       transform
+    #       filter
     out = (seq(data)
            .map(lambda row: row['Stat'])
            .filter(lambda row: (

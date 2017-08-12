@@ -45,6 +45,7 @@ class Offer(models.Model):
     lookback = models.PositiveIntegerField(
         verbose_name='Lookback Period (days)', default=1)
 
+    # todo: delete this shit
     min_cr = models.FloatField(default=.0)
     max_cr = models.FloatField(default=.0)
     pacc = models.FloatField(verbose_name='Clicks Cost Loss', default=.0)
@@ -85,6 +86,7 @@ class TriggerKey(models.Model):
         return self.key
 
 
+# todo: delete
 class Trigger(models.Model):
 
     class Meta:
@@ -122,13 +124,6 @@ class Trigger(models.Model):
     status = models.CharField(max_length=2, choices=STATUSES)
 
 
-class TriggerCondition(models.Model):
-    metric = models.ForeignKey(Metric)
-    name = models.CharField(max_length=64)
-    operator = models.CharField(max_length=10)
-    active = models.BooleanField(default=False)
-
-
 class AffiliateCap(models.Model):
 
     class Meta:
@@ -138,7 +133,7 @@ class AffiliateCap(models.Model):
     affiliate_id = models.PositiveIntegerField()
     conversion_cap = models.PositiveIntegerField()
 
-
+# todo: delete
 class ActionType(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
 
@@ -146,6 +141,7 @@ class ActionType(models.Model):
         return self.name
 
 
+# todo: delete
 class Action(models.Model):
 
     class Meta:

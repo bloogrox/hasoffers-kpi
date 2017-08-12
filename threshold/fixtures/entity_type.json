@@ -1,0 +1,6 @@
+[
+  {"model": "threshold.EntityType", "fields": {"name": "General", "priority": 1}},
+  {"model": "threshold.EntityType", "fields": {"name": "OfferCategory", "priority": 2}},
+  {"model": "threshold.EntityType", "fields": {"name": "Offer", "priority": 3}},
+  {"model": "threshold.EntityType", "fields": {"name": "Affiliate", "priority": 4}}
+]
