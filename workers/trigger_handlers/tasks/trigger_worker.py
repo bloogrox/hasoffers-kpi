@@ -8,14 +8,14 @@ from threshold.models import Threshold
 
 
 @celery_app.task
-def trigger_worker(metric):
+def trigger_worker(metric_log):
     trigger = (Trigger.objects
-               .get(active=True, metric__key=metric.key))
+               .get(active=True, metric__key=metric_log.metric.key))
     trigger_operator = getattr(operator, trigger.operator)
 
-    threshold_ = Threshold.objects.for_trigger(trigger, metric)
+    threshold_ = Threshold.objects.for_trigger(trigger, metric_log)
 
-    if trigger_operator(metric.value, threshold_.value):
+    if trigger_operator(metric_log.value, threshold_.value):
         status = TriggerCheck.PROBLEM
     else:
         status = TriggerCheck.OK
@@ -23,8 +23,8 @@ def trigger_worker(metric):
     # Prev trigger check
     filters = {
         'trigger': trigger,
-        'offer_id': metric.offer_id,
-        'affiliate_id': metric.affiliate_id
+        'offer_id': metric_log.offer_id,
+        'affiliate_id': metric_log.affiliate_id
     }
     prev_check = (TriggerCheck.objects
                   .filter(**filters)
@@ -34,8 +34,8 @@ def trigger_worker(metric):
     # Log trigger check
     values = {
         'trigger': trigger,
-        'offer_id': metric.offer_id,
-        'affiliate_id': metric.affiliate_id,
+        'offer_id': metric_log.offer_id,
+        'affiliate_id': metric_log.affiliate_id,
         'status': status
     }
 
@@ -46,11 +46,11 @@ def trigger_worker(metric):
     if prev_check:
         if status != prev_check.status:
             celery_pubsub.publish('trigger-event',
-                                  trigger_check, metric, threshold_)
+                                  trigger_check, metric_log, threshold_)
     else:
         if status == TriggerCheck.PROBLEM:
             celery_pubsub.publish('trigger-event',
-                                  trigger_check, metric, threshold_)
+                                  trigger_check, metric_log, threshold_)
 
     # trigger
     # if (status == Trigger.PROBLEM
