@@ -29,7 +29,7 @@ message_map = {
 
 
 @celery_app.task
-def notify_affiliate(trigger, metric_log):
+def notify_affiliate(metric_log):
     print("notify_affiliate: Starting notification of affiliate")
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
