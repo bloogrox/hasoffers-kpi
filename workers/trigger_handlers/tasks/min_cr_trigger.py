@@ -1,9 +1,9 @@
-import operator
+# import operator
 from kpi_notificator import celery_app
-from stats.models import Trigger
-from threshold.models import Threshold
-from workers.notify.tasks.notify_manager import notify_manager
-from stats.signals import trigger as trigger_signal
+# from stats.models import Trigger
+# from threshold.models import Threshold
+# from workers.notify.tasks.notify_manager import notify_manager
+# from stats.signals import trigger as trigger_signal
 
 
 @celery_app.task
