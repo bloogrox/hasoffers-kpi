@@ -62,7 +62,7 @@ def get_stats() -> list:
 
 @celery_app.task
 def get_cr():
-
+    print("Getting CR stats")
     data = get_stats()
 
     # todo: enqueue every row to metric processor
