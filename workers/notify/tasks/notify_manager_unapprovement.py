@@ -10,6 +10,7 @@ from mailings.models import Recipient
 
 @celery_app.task
 def notify_manager_unapprovement(trigger_check, metric_log):
+    print("notify_manager_unapprovement: Starting...")
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
     html = f"""
@@ -47,7 +48,7 @@ def notify_manager_unapprovement(trigger_check, metric_log):
     mail = Mail(from_email, subject, to_email, content)
     res = sg.client.mail.send.post(request_body=mail.get())
 
-    print(f'worker=notify_manager_unapprovement '
+    print(f'notify_manager_unapprovement: '
           f'affiliate_id={metric_log.affiliate_id} '
           f'offer_id={metric_log.offer_id} '
           f'trigger_check_id={trigger_check.id}')

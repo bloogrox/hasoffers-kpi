@@ -12,7 +12,7 @@ from workers.notify.tasks.notify_manager_unapprovement import (
 
 @celery_app.task
 def run_operation(key, trigger_check, metric_log):
-    print(f"Running {key} operation with arguments"
+    print(f"run_operation: Running {key} operation with arguments"
           f"trigger - {trigger_check}, metric log - {metric_log}")
     if key == "email_affiliate":
         notify_affiliate.delay(metric_log)

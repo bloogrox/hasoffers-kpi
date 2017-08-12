@@ -7,6 +7,7 @@ from stats.models import UnapproveLog
 
 @celery_app.task
 def unapprove_affiliate_offer(trigger_check, metric_log):
+    print("unapprove_affiliate_offer: Starting...")
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
                     retry_count=20,
@@ -20,6 +21,8 @@ def unapprove_affiliate_offer(trigger_check, metric_log):
     )
 
     resp = api.Offer.setAffiliateApproval(**params)
+
+    print(f"unapprove_affiliate_offer: HO response {resp.data}")
 
     if resp.status == 1:
         ul = UnapproveLog()

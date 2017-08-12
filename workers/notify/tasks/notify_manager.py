@@ -10,6 +10,7 @@ from mailings.models import Recipient
 
 @celery_app.task
 def notify_manager(trigger_check, metric_log):
+    print("notify_manager: Starting...")
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
     html = f"""
@@ -61,7 +62,9 @@ def notify_manager(trigger_check, metric_log):
     mail = Mail(from_email, subject, to_email, content)
     res = sg.client.mail.send.post(request_body=mail.get())
 
-    print(f'worker=notify_manager affiliate_id={metric_log.affiliate_id} '
-          f'offer_id={metric_log.offer_id} trigger check={trigger_check.id}')
+    print('notify_manager: '
+          f'affiliate_id={metric_log.affiliate_id} '
+          f'offer_id={metric_log.offer_id} '
+          f'trigger check={trigger_check.id}')
 
     return str(res)

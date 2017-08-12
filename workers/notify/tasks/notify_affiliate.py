@@ -30,6 +30,7 @@ message_map = {
 
 @celery_app.task
 def notify_affiliate(trigger, metric_log):
+    print("notify_affiliate: Starting notification of affiliate")
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
     offer = fetch_offer(metric_log.offer_id)
@@ -72,7 +73,7 @@ def notify_affiliate(trigger, metric_log):
 
         res = sg.client.mail.send.post(request_body=data)
 
-        print(f'worker=notify_affiliate '
+        print(f'notify_affiliate: '
               f'affiliate_id={metric_log.affiliate_id} '
               f'offer_id={metric_log.offer_id}')
 

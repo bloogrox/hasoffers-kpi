@@ -31,6 +31,7 @@ message_map = {
 # todo: refactor according to new input
 @celery_app.task
 def notify_affiliate_unapprovement(trigger_check, metric_log):
+    print("notify_affiliate_unapprovement: Starting...")
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
     offer = fetch_offer(metric_log.offer_id)
@@ -75,7 +76,7 @@ def notify_affiliate_unapprovement(trigger_check, metric_log):
 
         res = sg.client.mail.send.post(request_body=data)
 
-        print(f'worker=notify_affiliate_unapprovement '
+        print(f'notify_affiliate_unapprovement: '
               f'affiliate_id={metric_log.affiliate_id} '
               f'offer_id={metric_log.offer_id} '
               f'trigger_check_id={trigger_check.id}')
