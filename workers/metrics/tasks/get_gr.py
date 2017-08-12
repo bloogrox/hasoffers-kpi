@@ -140,4 +140,4 @@ def get_gr():
             metric_log.save()
 
             # run trigger worker
-            celery_pubsub.publish('metric.loaded', data=metric_log)
+            celery_pubsub.publish('metric.loaded', metric_log)

@@ -90,4 +90,4 @@ def get_cr():
         metric_log.value = row['value']
         metric_log.save()
 
-        celery_pubsub.publish('metric.loaded', data=metric_log)
+        celery_pubsub.publish('metric.loaded', metric_log)
