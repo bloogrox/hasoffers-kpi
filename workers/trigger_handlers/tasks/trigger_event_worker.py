@@ -1,7 +1,7 @@
 import celery_pubsub
 from kpi_notificator import celery_app
 
-from action.models import Action
+from actions.models import Action
 from workers.operations.tasks.run_operation import run_operation
 
 
