@@ -2,7 +2,6 @@ from functional import seq
 from kpi_notificator import celery_app
 import celery_pubsub
 
-from workers.trigger_handlers.tasks.capfill_trigger import capfill_trigger
 from funcutils import update_in, assoc
 from ..utils import offer_exists_and_monitoring_true
 from stats.models import Metric, MetricLog, AffiliateCap

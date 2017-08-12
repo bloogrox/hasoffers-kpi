@@ -12,5 +12,6 @@ class Operation(models.Model):
 
 class Action(models.Model):
     trigger = models.ForeignKey(Trigger)
-    trigger_status = models.CharField(max_length=32, choices=TriggerCheck.STATUSES)
+    trigger_status = models.CharField(max_length=32,
+                                      choices=TriggerCheck.STATUSES)
     operations = models.ManyToManyField(Operation, related_name='actions')

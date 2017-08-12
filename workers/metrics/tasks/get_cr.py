@@ -6,8 +6,6 @@ import celery_pubsub
 
 from hasoffers import Hasoffers
 from funcutils import update_in, assoc
-from workers.trigger_handlers.tasks.min_cr_trigger import min_cr_trigger
-from workers.trigger_handlers.tasks.max_cr_trigger import max_cr_trigger
 from stats.models import Metric, MetricLog
 from django.conf import settings
 from ..utils import offer_exists_and_monitoring_true, get_offer_min_clicks

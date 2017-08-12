@@ -25,14 +25,19 @@ def notify_manager(trigger_check, metric_log):
     # """
     # <p>
     #     <div>
-    #         <a href="{settings.SITE_URL}/notify-affiliate/?trigger_id={trigger.id}" target="_blank">notify affiliate</a></div>
-    #     <div><a href="{settings.SITE_URL}/unapprove-affiliate/?trigger_id={trigger.id}" target="_blank">unapprove affiliate now</a></div>
+    #         <a href="{settings.SITE_URL}/notify-affiliate
+    # /?trigger_id={trigger.id}" target="_blank">notify affiliate</a></div>
+    #     <div><a href="{settings.SITE_URL}/unapprove-affiliate
+    # /?trigger_id={trigger.id}" target="_blank">
+    # unapprove affiliate now</a></div>
     # </p>
     # """
 
     from_email = Email(settings.NETWORK_EMAIL)
-    subject = (f'Hasoffers notification: Affiliate #{metric_log.affiliate_id}; '
-               f'Offer #{metric_log.offer_id}; {trigger_check.trigger.name}={metric_log.value}')
+    subject = (f'Hasoffers notification: '
+               f'Affiliate #{metric_log.affiliate_id}; '
+               f'Offer #{metric_log.offer_id}; '
+               f'{trigger_check.trigger.name}={metric_log.value}')
     content = Content("text/html", html)
 
     for recipient in Recipient.objects.filter(active=True):

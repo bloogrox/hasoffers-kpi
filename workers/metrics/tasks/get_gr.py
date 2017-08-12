@@ -9,7 +9,6 @@ from funcutils import update_in, assoc
 from stats.models import Metric, MetricLog, Offer
 from django.conf import settings
 from ..utils import offer_exists_and_monitoring_true
-from workers.trigger_handlers.tasks.min_gr_trigger import min_gr_trigger
 
 
 def gr(conversions, goals):

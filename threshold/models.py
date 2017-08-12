@@ -20,8 +20,8 @@ class ThresholdManager(models.Manager):
                                entity_id=metric_log.affiliate_id) |
                              Q(entity_type__name="Offer",
                                entity_id=metric_log.offer_id) |
-                            #  Q(entity_type__name="OfferCategory",
-                            #    entity_id__in=metric.offer_categories) |
+                             #  Q(entity_type__name="OfferCategory",
+                             #    entity_id__in=metric.offer_categories) |
                              Q(entity_type__name="General"))
                      .order_by('-entity_type__priority')
                      .first())

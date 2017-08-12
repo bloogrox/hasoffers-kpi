@@ -44,7 +44,8 @@ def notify_affiliate_unapprovement(trigger_check, metric_log):
     # txt = message_map[trigger.key]
     txt = 'low performance'
 
-    aff_users = AffiliateUser.objects.filter(affiliate_id=metric_log.affiliate_id)
+    aff_users = (AffiliateUser.objects
+                 .filter(affiliate_id=metric_log.affiliate_id))
 
     if aff_users:
         to_ = [{'email': u.email} for u in aff_users]
@@ -75,7 +76,8 @@ def notify_affiliate_unapprovement(trigger_check, metric_log):
         res = sg.client.mail.send.post(request_body=data)
 
         print(f'worker=notify_affiliate_unapprovement '
-              f'affiliate_id={metric_log.affiliate_id} offer_id={metric_log.offer_id} '
+              f'affiliate_id={metric_log.affiliate_id} '
+              f'offer_id={metric_log.offer_id} '
               f'trigger_check_id={trigger_check.id}')
 
         return str(res)

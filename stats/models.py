@@ -133,6 +133,7 @@ class AffiliateCap(models.Model):
     affiliate_id = models.PositiveIntegerField()
     conversion_cap = models.PositiveIntegerField()
 
+
 # todo: delete
 class ActionType(models.Model):
     name = models.CharField(max_length=20, primary_key=True)

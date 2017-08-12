@@ -7,9 +7,6 @@ from trigger.models import Trigger, TriggerCheck
 from threshold.models import Threshold
 
 
-celery_pubsub.subscribe('metric.loaded', trigger_worker)
-
-
 @celery_app.task
 def trigger_worker(metric):
     trigger = (Trigger.objects
@@ -27,7 +24,7 @@ def trigger_worker(metric):
     filters = {
         'trigger': trigger,
         'offer_id': metric.offer_id,
-        'affiliate_id': affiliate_id
+        'affiliate_id': metric.affiliate_id
     }
     prev_check = (TriggerCheck.objects
                   .filter(**filters)
@@ -38,7 +35,7 @@ def trigger_worker(metric):
     values = {
         'trigger': trigger,
         'offer_id': metric.offer_id,
-        'affiliate_id': affiliate_id,
+        'affiliate_id': metric.affiliate_id,
         'status': status
     }
 
@@ -49,12 +46,11 @@ def trigger_worker(metric):
     if prev_check:
         if status != prev_check.status:
             celery_pubsub.publish('trigger-event',
-                                  trigger_check, metric_log, threshold_)
+                                  trigger_check, metric, threshold_)
     else:
         if status == TriggerCheck.PROBLEM:
             celery_pubsub.publish('trigger-event',
-                                  trigger_check, metric_log, threshold_)
-
+                                  trigger_check, metric, threshold_)
 
     # trigger
     # if (status == Trigger.PROBLEM
@@ -64,3 +60,7 @@ def trigger_worker(metric):
     #                         trigger_check_log=trigger_check_log,
     #                         metric=metric,
     #                         threshold=threshold_)
+
+
+# todo: bad place for subscribe
+celery_pubsub.subscribe('metric.loaded', trigger_worker)
