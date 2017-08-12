@@ -11,3 +11,8 @@ class ActionAdmin(admin.ModelAdmin):
     list_display = ('id', 'trigger', 'trigger_status')
     inlines = (OperationInline,)
     exclude = ('operations',)
+
+
+@admin.register(Operation)
+class ActionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'key', 'title')
