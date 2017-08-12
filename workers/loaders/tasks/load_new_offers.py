@@ -29,7 +29,7 @@ def load_new_offers():
         categories_str = ','.join(dict(ho_offer.OfferCategory).keys())
         data = {
             'id': ho_offer.id,
-            'name': ho_offer.name
+            'name': ho_offer.name,
             'categories_str': categories_str
         }
         persist_offer.delay(data)
