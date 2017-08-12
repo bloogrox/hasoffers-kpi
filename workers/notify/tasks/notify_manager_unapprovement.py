@@ -9,21 +9,21 @@ from mailings.models import Recipient
 
 
 @celery_app.task
-def notify_manager_unapprovement(trigger):
+def notify_manager_unapprovement(trigger_check, metric_log):
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
     html = f"""
     <p>
-        Offer id: {trigger.offer_id};
-        Affiliate id: {trigger.affiliate_id}
-        Key: {trigger.key};
-        Value: {trigger.value};
+        Offer id: {metric_log.offer_id};
+        Affiliate id: {metric_log.affiliate_id}
+        Key: {trigger_check.trigger.name};
+        Value: {metric_log.value};
     </p>
     """
 
     from_email = Email(settings.NETWORK_EMAIL)
-    subject = (f'Affiliate #{trigger.affiliate_id} was unapproved from '
-               f'the offer #{trigger.offer_id}')
+    subject = (f'Affiliate #{metric_log.affiliate_id} was unapproved from '
+               f'the offer #{metric_log.offer_id}')
     content = Content("text/html", html)
 
     for recipient in Recipient.objects.filter(active=True):
@@ -35,7 +35,9 @@ def notify_manager_unapprovement(trigger):
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
                     proxies=settings.PROXIES)
-    affiliate = api.Affiliate.findById(id=trigger.affiliate_id).extract_one()
+    affiliate = (api.Affiliate
+                 .findById(id=metric_log.affiliate_id)
+                 .extract_one())
     employee = models.Employee.objects.get(pk=affiliate.account_manager_id)
 
     email_address = (employee.email
@@ -46,7 +48,8 @@ def notify_manager_unapprovement(trigger):
     res = sg.client.mail.send.post(request_body=mail.get())
 
     print(f'worker=notify_manager_unapprovement '
-          f'affiliate_id={trigger.affiliate_id} '
-          f'offer_id={trigger.offer_id} trigger_id={trigger.id}')
+          f'affiliate_id={metric_log.affiliate_id} '
+          f'offer_id={metric_log.offer_id} '
+          f'trigger_check_id={trigger_check.id}')
 
     return res

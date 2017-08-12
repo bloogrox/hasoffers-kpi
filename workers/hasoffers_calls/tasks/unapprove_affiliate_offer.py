@@ -6,23 +6,23 @@ from stats.models import UnapproveLog
 
 
 @celery_app.task
-def unapprove_affiliate_offer(trigger):
+def unapprove_affiliate_offer(trigger_check, metric_log):
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
                     retry_count=20,
                     proxies=settings.PROXIES)
 
     params = dict(
-        id=trigger.offer_id,
-        affiliate_id=trigger.affiliate_id,
+        id=metric_log.offer_id,
+        affiliate_id=metric_log.affiliate_id,
         status='rejected',
-        notes=f'reject reason: {trigger.key}'
+        notes=f'reject reason: {trigger_check.trigger.name}'
     )
 
     resp = api.Offer.setAffiliateApproval(**params)
 
     if resp.status == 1:
         ul = UnapproveLog()
-        ul.offer_id = trigger.offer_id
-        ul.affiliate_id = trigger.affiliate_id
+        ul.offer_id = metric_log.offer_id
+        ul.affiliate_id = metric_log.affiliate_id
         ul.save()

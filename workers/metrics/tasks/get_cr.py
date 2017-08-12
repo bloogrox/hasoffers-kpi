@@ -2,11 +2,10 @@ import pytz
 import datetime
 from functional import seq
 from kpi_notificator import celery_app
+import celery_pubsub
 
 from hasoffers import Hasoffers
 from funcutils import update_in, assoc
-from workers.trigger_handlers.tasks.min_cr_trigger import min_cr_trigger
-from workers.trigger_handlers.tasks.max_cr_trigger import max_cr_trigger
 from stats.models import Metric, MetricLog
 from django.conf import settings
 from ..utils import offer_exists_and_monitoring_true, get_offer_min_clicks
@@ -66,6 +65,9 @@ def get_cr():
 
     data = get_stats()
 
+    # todo: enqueue every row to metric processor
+    #       transform
+    #       filter
     out = (seq(data)
            .map(lambda row: row['Stat'])
            .filter(lambda row: (
@@ -88,5 +90,4 @@ def get_cr():
         metric_log.value = row['value']
         metric_log.save()
 
-        min_cr_trigger.delay(metric_log)
-        max_cr_trigger.delay(metric_log)
+        celery_pubsub.publish('metric.loaded', data=metric_log)

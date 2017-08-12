@@ -2,13 +2,13 @@ import pytz
 import datetime
 from functional import seq
 from kpi_notificator import celery_app
+import celery_pubsub
 
 from hasoffers import Hasoffers
 from funcutils import update_in, assoc
 from stats.models import Metric, MetricLog, Offer
 from django.conf import settings
 from ..utils import offer_exists_and_monitoring_true
-from workers.trigger_handlers.tasks.min_gr_trigger import min_gr_trigger
 
 
 def gr(conversions, goals):
@@ -72,7 +72,7 @@ def offer_has_goal(offer_id):
 
 def get_goals_count(affiliate_id, data):
     res = (seq(data)
-           .filter(lambda r: r[affiliate_id] == affiliate_id)
+           .filter(lambda r: r['affiliate_id'] == affiliate_id)
            .to_list())
 
     if res:
@@ -140,4 +140,4 @@ def get_gr():
             metric_log.save()
 
             # run trigger worker
-            min_gr_trigger.delay(metric_log)
+            celery_pubsub.publish('metric.loaded', data=metric_log)

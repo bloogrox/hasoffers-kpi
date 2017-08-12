@@ -2,11 +2,10 @@ import pytz
 import datetime
 from functional import seq
 from kpi_notificator import celery_app
+import celery_pubsub
 
 from hasoffers import Hasoffers
 from funcutils import update_in, assoc
-from workers.trigger_handlers.tasks.clicks_if_zero_conv_trigger import (
-    clicks_if_zero_conv_trigger)
 from stats.models import Metric, MetricLog
 from django.conf import settings
 from ..utils import offer_exists_and_monitoring_true, get_offer_min_clicks
@@ -52,4 +51,4 @@ def get_clicks_if_zero_conv():
         metric_log.value = row['value']
         metric_log.save()
 
-        clicks_if_zero_conv_trigger.delay(metric_log)
+        celery_pubsub.publish('metric.loaded', data=metric_log)

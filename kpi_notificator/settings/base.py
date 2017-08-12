@@ -44,9 +44,12 @@ INSTALLED_APPS = [
     'stats',
     'email_actions',
     'mailings',
+    'threshold',
+    'action',
+    'trigger',
 
     'dynamic_preferences',
-    'django_celery_results'
+    'django_celery_results',
 ]
 
 
