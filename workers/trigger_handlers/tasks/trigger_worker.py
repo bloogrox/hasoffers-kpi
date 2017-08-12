@@ -11,9 +11,12 @@ from threshold.models import Threshold
 def trigger_worker(metric_log):
     trigger = (Trigger.objects
                .get(active=True, metric__key=metric_log.metric.key))
+    print(f"trigger_worker: processing trigger {trigger}")
+
     trigger_operator = getattr(operator, trigger.operator)
 
     threshold_ = Threshold.objects.for_trigger(trigger, metric_log)
+    print(f"trigger_worker: using threshold {threshold_}")
 
     if trigger_operator(metric_log.value, threshold_.value):
         status = TriggerCheck.PROBLEM
@@ -42,15 +45,21 @@ def trigger_worker(metric_log):
     trigger_check = TriggerCheck(**values)
     trigger_check.save()
 
+    print(f"trigger_worker: trigger check done {trigger_check}")
+
     # Trigger Event
     if prev_check:
         if status != prev_check.status:
             celery_pubsub.publish('trigger-event',
                                   trigger_check, metric_log, threshold_)
+            print(f"trigger_worker: trigger-event published "
+                  f"with params {trigger_check} {metric_log} {threshold_}")
     else:
         if status == TriggerCheck.PROBLEM:
             celery_pubsub.publish('trigger-event',
                                   trigger_check, metric_log, threshold_)
+            print(f"trigger_worker: trigger-event published "
+                  f"with params {trigger_check} {metric_log} {threshold_}")
 
     # trigger
     # if (status == Trigger.PROBLEM
