@@ -31,8 +31,8 @@ def update_active_offers():
 
         try:
             db_offer = Offer.objects.get(pk=offer.id)
-            if db_offer.incent != is_incent:
-                db_offer.incent = is_incent
-                db_offer.save()
+            db_offer.categories_str = ','.join(map(str, offer_categories_id))
+            db_offer.incent = is_incent
+            db_offer.save()
         except Offer.DoesNotExist:
             continue

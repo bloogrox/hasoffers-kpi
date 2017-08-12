@@ -41,6 +41,7 @@ def persist_offer(data):
         db_offer = Offer()
         db_offer.id = data['id']
         db_offer.name = data['name']
+        db_offer.categories_str = data['categories_str']
 
         # initial settings
         for attr, value in prefs.items():
