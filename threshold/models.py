@@ -12,7 +12,7 @@ class EntityType(models.Model):
 
 
 class ThresholdManager(models.Manager):
-    # todo pass offer categories list
+    # todo: implement offer categories threshold
     def for_trigger(self, trigger, metric_log):
         threshold = (super(ThresholdManager, self).get_queryset()
                      .filter(trigger=trigger)
@@ -39,6 +39,7 @@ class Threshold(models.Model):
     value = models.FloatField()
 
     def __str__(self):
-        return f"{self.trigger} {self.entity_type}"
+        return (f"{self.trigger}, entity_type={self.entity_type}, "
+                f"entity_id={self.entity_id}, value={self.value}")
 
     objects = ThresholdManager()

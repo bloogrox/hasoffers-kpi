@@ -27,3 +27,9 @@ class TriggerCheck(models.Model):
     status = models.CharField(max_length=2, choices=STATUSES)
     offer_id = models.PositiveIntegerField()
     affiliate_id = models.PositiveIntegerField()
+
+    def __str__(self):
+        return (f"#{self.id} trigger={self.trigger}, "
+                f"status={self.status}, "
+                f"offer_id={self.offer_id}, "
+                f"affiliate_id={self.affiliate_id}")
