@@ -92,10 +92,3 @@ class AffiliateCap(models.Model):
     offer_id = models.PositiveIntegerField()
     affiliate_id = models.PositiveIntegerField()
     conversion_cap = models.PositiveIntegerField()
-
-
-# todo: delete
-class UnapproveLog(models.Model):
-    datetime = models.DateTimeField(auto_now_add=True)
-    offer_id = models.PositiveIntegerField()
-    affiliate_id = models.PositiveIntegerField()

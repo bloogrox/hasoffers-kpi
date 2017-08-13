@@ -46,9 +46,3 @@ class MetricLogAdmin(admin.ModelAdmin):
 @admin.register(stats.models.AffiliateCap)
 class AffiliateCapAdmin(admin.ModelAdmin):
     list_display = ('offer_id', 'affiliate_id', 'conversion_cap')
-
-
-@admin.register(stats.models.UnapproveLog)
-class UnapproveLogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'datetime', 'offer_id', 'affiliate_id')
-    search_fields = ('offer_id', 'affiliate_id',)
