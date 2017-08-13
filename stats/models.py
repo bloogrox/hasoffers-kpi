@@ -84,14 +84,6 @@ class Employee(models.Model):
     use_secondary = models.BooleanField(default=False)
 
 
-# todo: delete
-class TriggerKey(models.Model):
-    key = models.CharField(max_length=20, primary_key=True)
-
-    def __str__(self):
-        return self.key
-
-
 class AffiliateCap(models.Model):
 
     class Meta:
