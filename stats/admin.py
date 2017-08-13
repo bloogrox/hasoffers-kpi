@@ -43,13 +43,6 @@ class MetricLogAdmin(admin.ModelAdmin):
     search_fields = ('metric__key', 'offer_id', 'affiliate_id',)
 
 
-@admin.register(stats.models.Trigger)
-class TriggerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_at', 'updated_at', 'key', 'value',
-                    'offer_id', 'affiliate_id', 'status')
-    search_fields = ('id', 'key', 'offer_id', 'affiliate_id',)
-
-
 @admin.register(stats.models.AffiliateCap)
 class AffiliateCapAdmin(admin.ModelAdmin):
     list_display = ('offer_id', 'affiliate_id', 'conversion_cap')

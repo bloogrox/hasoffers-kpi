@@ -92,44 +92,6 @@ class TriggerKey(models.Model):
         return self.key
 
 
-# todo: delete
-class Trigger(models.Model):
-
-    class Meta:
-        unique_together = ('offer_id', 'affiliate_id', 'key')
-
-    OK = 'OK'
-    PROBLEM = 'PR'
-    STATUSES = (
-        (OK, 'OK'),
-        (PROBLEM, 'PROBLEM')
-    )
-
-    KEY_MIN_CR = 'MIN_CR'
-    KEY_MAX_CR = 'MAX_CR'
-    KEY_PACC = 'PACC'
-    KEY_CLICKS_ZERO_CONV = 'CLICKS_ZERO_CONV'
-    KEY_CAP_FILL = 'CAP_FILL'
-    KEY_MIN_GR = 'MIN_GR'
-    KEYS = (
-        (KEY_MIN_CR, KEY_MIN_CR),
-        (KEY_MAX_CR, KEY_MAX_CR),
-        (KEY_PACC, KEY_PACC),
-        (KEY_CLICKS_ZERO_CONV, KEY_CLICKS_ZERO_CONV),
-        (KEY_CAP_FILL, KEY_CAP_FILL),
-        (KEY_MIN_GR, KEY_MIN_GR),
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True,
-                                      blank=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    key = models.CharField(max_length=20, choices=KEYS)
-    offer_id = models.IntegerField()
-    affiliate_id = models.IntegerField()
-    value = models.FloatField()
-    status = models.CharField(max_length=2, choices=STATUSES)
-
-
 class AffiliateCap(models.Model):
 
     class Meta:

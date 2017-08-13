@@ -4,7 +4,7 @@ import sendgrid
 from kpi_notificator import celery_app
 
 from django.conf import settings
-from stats.models import Trigger, AffiliateUser
+from stats.models import AffiliateUser
 
 
 def fetch_offer(offer_id):
@@ -18,14 +18,14 @@ def fetch_offer(offer_id):
     return offer
 
 
-message_map = {
-    Trigger.KEY_MIN_CR: 'low CR',
-    Trigger.KEY_MAX_CR: 'high CR',
-    Trigger.KEY_PACC: 'low performance',
-    Trigger.KEY_MIN_GR: 'low performance',
-    Trigger.KEY_CAP_FILL: 'low performance',
-    Trigger.KEY_CLICKS_ZERO_CONV: 'low performance'
-}
+# message_map = {
+#     Trigger.KEY_MIN_CR: 'low CR',
+#     Trigger.KEY_MAX_CR: 'high CR',
+#     Trigger.KEY_PACC: 'low performance',
+#     Trigger.KEY_MIN_GR: 'low performance',
+#     Trigger.KEY_CAP_FILL: 'low performance',
+#     Trigger.KEY_CLICKS_ZERO_CONV: 'low performance'
+# }
 
 
 @celery_app.task
