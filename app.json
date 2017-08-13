@@ -1,6 +1,9 @@
 {
   "scripts": {
     "dokku": {
+	    "scripts": {
+		        "postdeploy": "python manage.py migrate"
+	    }
     }
   }
 }
