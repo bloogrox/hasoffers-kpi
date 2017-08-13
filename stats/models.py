@@ -50,12 +50,6 @@ class Offer(models.Model):
     lookback = models.PositiveIntegerField(
         verbose_name='Lookback Period (days)', default=1)
 
-    # todo: delete this shit
-    min_cr = models.FloatField(default=.0)
-    max_cr = models.FloatField(default=.0)
-    pacc = models.FloatField(verbose_name='Clicks Cost Loss', default=.0)
-    cap_fill = models.FloatField(default=.0)
-    clicks_if_zero_conv = models.PositiveIntegerField(default=0)
     min_clicks = models.PositiveIntegerField(default=0)
 
     def __str__(self):
