@@ -1,10 +1,9 @@
 from django.http import HttpResponse
-from stats import models
-from workers.notify.tasks.notify_affiliate import notify_affiliate
-from workers.notify.tasks.notify_affiliate_unapprovement import (
-    notify_affiliate_unapprovement)
-from workers.hasoffers_calls.tasks.unapprove_affiliate_offer import (
-    unapprove_affiliate_offer)
+# from workers.notify.tasks.notify_affiliate import notify_affiliate
+# from workers.notify.tasks.notify_affiliate_unapprovement import (
+# notify_affiliate_unapprovement)
+# from workers.hasoffers_calls.tasks.unapprove_affiliate_offer import (
+# unapprove_affiliate_offer)
 
 
 def notify_affiliate_about_trigger(request):
