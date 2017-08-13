@@ -2,6 +2,9 @@ from dynamic_preferences import types
 from dynamic_preferences.registries import global_preferences_registry
 
 
+# todo: delete global thresholds
+
+
 NON_INCENT = 'non_incent'
 INCENT = 'incent'
 
