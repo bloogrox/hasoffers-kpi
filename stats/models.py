@@ -143,14 +143,6 @@ class AffiliateCap(models.Model):
 
 
 # todo: delete
-class ActionType(models.Model):
-    name = models.CharField(max_length=20, primary_key=True)
-
-    def __str__(self):
-        return self.name
-
-
-# todo: delete
 class UnapproveLog(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     offer_id = models.PositiveIntegerField()

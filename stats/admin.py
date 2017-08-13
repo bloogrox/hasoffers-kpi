@@ -60,11 +60,6 @@ class TriggerKeyAdmin(admin.ModelAdmin):
     list_display = ('key',)
 
 
-@admin.register(stats.models.ActionType)
-class ActionTypeAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-
-
 @admin.register(stats.models.UnapproveLog)
 class UnapproveLogAdmin(admin.ModelAdmin):
     list_display = ('id', 'datetime', 'offer_id', 'affiliate_id')
