@@ -1,4 +1,0 @@
-[
-  {"model": "stats.ActionType", "fields": {"name": "notify"}},
-  {"model": "stats.ActionType", "fields": {"name": "pause"}}
-]
