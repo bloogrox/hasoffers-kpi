@@ -35,8 +35,6 @@ class Offer(models.Model):
     def categories(self):
         return [int(cat_str) for cat_str in self.categories_str.split(',')]
 
-    # todo: remove incent field
-    incent = models.BooleanField(default=False)
     monitoring = models.BooleanField(default=True)
     notify_affiliate = models.BooleanField('Notify Affiliate?',
                                            default=False)

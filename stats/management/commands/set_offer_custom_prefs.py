@@ -28,15 +28,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        incent_prefs = fetch_global_preferences(incent=True)
         prefs = fetch_global_preferences(incent=False)
 
         for offer in Offer.objects.all():
-            if offer.incent:
-                for attr, value in incent_prefs.items():
-                    setattr(offer, attr, value)
-            else:
-                for attr, value in prefs.items():
-                    setattr(offer, attr, value)
-
+            for attr, value in prefs.items():
+                setattr(offer, attr, value)
             offer.save()

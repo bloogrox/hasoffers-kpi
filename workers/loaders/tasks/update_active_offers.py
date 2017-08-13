@@ -21,18 +21,12 @@ def update_active_offers():
     resp = api.Offer.findAll(**params)
 
     for offer in resp.extract_all():
-        offer_categories_id = (
-            list(
-                map(
-                    int,
-                    list(dict(offer.OfferCategory).keys()))))
-        is_incent = bool(set(offer_categories_id)
-                         & set(settings.INCENT_CATEGORIES))
+        offer_categories_id = list(dict(offer.OfferCategory).keys())
 
         try:
             db_offer = Offer.objects.get(pk=offer.id)
-            db_offer.categories_str = ','.join(map(str, offer_categories_id))
-            db_offer.incent = is_incent
-            db_offer.save()
         except Offer.DoesNotExist:
             continue
+
+        db_offer.categories_str = ','.join(offer_categories_id)
+        db_offer.save()
