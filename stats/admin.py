@@ -65,11 +65,6 @@ class ActionTypeAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-@admin.register(stats.models.Action)
-class ActionAdmin(admin.ModelAdmin):
-    list_display = ('key', 'action_type',)
-
-
 @admin.register(stats.models.UnapproveLog)
 class UnapproveLogAdmin(admin.ModelAdmin):
     list_display = ('id', 'datetime', 'offer_id', 'affiliate_id')

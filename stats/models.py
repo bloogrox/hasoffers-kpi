@@ -151,16 +151,6 @@ class ActionType(models.Model):
 
 
 # todo: delete
-class Action(models.Model):
-
-    class Meta:
-        unique_together = ('key', 'action_type',)
-
-    key = models.ForeignKey(TriggerKey, verbose_name='Event')
-    action_type = models.ForeignKey(ActionType, verbose_name='Action')
-
-
-# todo: delete
 class UnapproveLog(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     offer_id = models.PositiveIntegerField()
