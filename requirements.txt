@@ -30,3 +30,4 @@ celery==4.0.2
 django-celery-results==1.0.1
 flake8==3.4.1
 git+https://github.com/bloogrox/celery-pubsub@import-fix
+django-admin-rangefilter==0.3.0

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     'dynamic_preferences',
     'django_celery_results',
+    'rangefilter',
 ]
 
 

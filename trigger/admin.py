@@ -1,4 +1,5 @@
 from django.contrib import admin
+from rangefilter.filter import DateRangeFilter
 
 from trigger.models import Trigger, TriggerCheck
 
@@ -13,4 +14,9 @@ class TriggerAdmin(admin.ModelAdmin):
 class TriggerCheckAdmin(admin.ModelAdmin):
     list_display = ('id', 'created_at', 'trigger', 'offer_id',
                     'affiliate_id', 'status',)
-    list_filter = ('trigger', 'status', 'offer_id', 'affiliate_id')
+    list_filter = (
+        'trigger',
+        'status',
+        ('created_at', DateRangeFilter)
+    )
+    search_fields = ('offer_id', 'affiliate_id',)
