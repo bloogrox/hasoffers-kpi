@@ -1,4 +1,5 @@
 from django.contrib import admin
+from rangefilter.filter import DateRangeFilter
 
 import stats.models
 from stats.forms import OfferForm
@@ -39,7 +40,10 @@ class MetricAdmin(admin.ModelAdmin):
 class MetricLogAdmin(admin.ModelAdmin):
     list_display = ('id', 'datetime', 'metric', 'value', 'offer_id',
                     'affiliate_id')
-    list_filter = ('metric',)
+    list_filter = (
+        'metric',
+        ('datetime', DateRangeFilter)
+    )
     search_fields = ('metric__key', 'offer_id', 'affiliate_id',)
 
 
