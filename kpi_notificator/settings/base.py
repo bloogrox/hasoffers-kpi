@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'actions',
     'trigger',
 
-    'dynamic_preferences',
     'django_celery_results',
     'rangefilter',
 ]
