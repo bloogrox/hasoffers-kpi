@@ -12,6 +12,8 @@ from workers.notify.tasks.notify_affiliate_approved import (
     notify_affiliate_approved)
 from workers.notify.tasks.notify_manager_unapprovement import (
     notify_manager_unapprovement)
+from workers.notify.tasks.notify_manager_approved import (
+    notify_manager_approved)
 
 
 @celery_app.task
@@ -29,3 +31,4 @@ def run_operation(key, trigger_check, metric_log):
     elif key == "approve":
         approve_affiliate_offer.delay(trigger_check, metric_log)
         notify_affiliate_approved.delay(trigger_check, metric_log)
+        notify_manager_approved.delay(trigger_check, metric_log)
