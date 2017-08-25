@@ -11,20 +11,18 @@ from mailings.models import Recipient
 @celery_app.task
 def notify_manager_unapprovement(trigger_check, metric_log):
     print("notify_manager_unapprovement: Starting...")
+
+    offer = models.Offer.objects.get(pk=metric_log.offer_id)
+
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
     html = f"""
-    <p>
-        Offer id: {metric_log.offer_id};
-        Affiliate id: {metric_log.affiliate_id}
-        Key: {trigger_check.trigger.name};
-        Value: {metric_log.value};
-    </p>
+        Affiliate ID: {metric_log.affiliate_id} was UNAPPROVED from
+        offer {offer.name} - lost ${metric_log.value}
     """
 
     from_email = Email(settings.NETWORK_EMAIL)
-    subject = (f'Affiliate #{metric_log.affiliate_id} was unapproved from '
-               f'the offer #{metric_log.offer_id}')
+    subject = ('Affiliate was PAUSED due to click cost!')
     content = Content("text/html", html)
 
     for recipient in Recipient.objects.filter(active=True):
