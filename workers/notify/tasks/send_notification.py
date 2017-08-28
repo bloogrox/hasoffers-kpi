@@ -1,22 +1,13 @@
 from hasoffers import Hasoffers
 import sendgrid
-from sendgrid.helpers import Email, Mail, Content, Personalization
+from sendgrid.helpers.mail import Email, Mail, Content, Personalization
 from kpi_notificator import celery_app
 from django.conf import settings
 from stats.models import Offer, Employee
 
 
-# macros = {
-#     'value',
-#     'offer-id',
-#     'offer-name',
-#     'affiliate-id'
-# }
-
-
 @celery_app.task
 def send_notification(notification, trigger_check, metric_log):
-    # get email according to notification receiver
     to_emails = []
     for receiver in notification.receivers.all():
         if receiver.name == 'Affiliate Manager':
