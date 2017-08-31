@@ -1,3 +1,4 @@
+import datetime
 import sendgrid
 from sendgrid.helpers.mail import Mail, Email, Content
 from hasoffers import Hasoffers
@@ -13,6 +14,8 @@ def notify_manager(trigger_check, metric_log):
     print("notify_manager: Starting...")
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
+    now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
     html = f"""
     <p>
         offer id: {metric_log.offer_id};
@@ -20,6 +23,9 @@ def notify_manager(trigger_check, metric_log):
         trigger: {trigger_check.trigger.name};
         value: {metric_log.value};
     </p>
+
+    <br><br>
+    <small>generated at: {now}</small>
     """
 
     # todo: put back email actions for manager

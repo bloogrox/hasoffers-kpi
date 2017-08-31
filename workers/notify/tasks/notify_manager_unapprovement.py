@@ -1,3 +1,4 @@
+import datetime
 import sendgrid
 from sendgrid.helpers.mail import Mail, Email, Content
 from hasoffers import Hasoffers
@@ -16,9 +17,14 @@ def notify_manager_unapprovement(trigger_check, metric_log):
 
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
+    now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
     html = f"""
         Affiliate ID: {metric_log.affiliate_id} was UNAPPROVED from
         offer {offer.name} - lost ${metric_log.value}
+
+        <br><br>
+        <small>generated at: {now}</small>
     """
 
     from_email = Email(settings.NETWORK_EMAIL)
