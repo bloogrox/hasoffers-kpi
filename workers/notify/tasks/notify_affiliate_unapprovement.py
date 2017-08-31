@@ -5,13 +5,14 @@ from hasoffers import Hasoffers
 from kpi_notificator import celery_app
 
 from django.conf import settings
-from stats.models import AffiliateUser
 
 
 def fetch_offer(offer_id):
     api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
                     network_id=settings.HASOFFERS_NETWORK_ID,
-                    proxies=settings.PROXIES)
+                    proxies=settings.PROXIES,
+                    retry_count=20)
+
     resp = api.Offer.findById(id=offer_id, contain=['Thumbnail'])
     offer = resp.extract_one()
     return offer
@@ -45,11 +46,10 @@ def notify_affiliate_unapprovement(trigger_check, metric_log):
     # txt = message_map[trigger.key]
     txt = 'low performance'
 
-    aff_users = (AffiliateUser.objects
-                 .filter(affiliate_id=metric_log.affiliate_id))
+    emails = get_affiliate_emails(metric_log.affiliate_id)
 
-    if aff_users:
-        to_ = [{'email': u.email} for u in aff_users]
+    if emails:
+        to_ = [{'email': email} for email in emails]
 
         data = {
             "personalizations": [
@@ -82,3 +82,16 @@ def notify_affiliate_unapprovement(trigger_check, metric_log):
               f'trigger_check_id={trigger_check.id}')
 
         return str(res)
+
+
+def get_affiliate_emails(affiliate_id: int) -> list:
+    api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
+                    network_id=settings.HASOFFERS_NETWORK_ID,
+                    proxies=settings.PROXIES,
+                    retry_count=20)
+    affiliate_users = api.AffiliateUser.findAll(
+        fields=['id', 'email'],
+        filters={'affiliate_id': affiliate_id, 'status': 'active'}
+    ).extract_all()
+
+    return [affiliate_user.email for affiliate_user in affiliate_users]
