@@ -10,8 +10,8 @@ class Metric(models.Model):
 
 class MetricLog(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
-    offer_id = models.IntegerField()
-    affiliate_id = models.IntegerField()
+    offer_id = models.IntegerField(db_index=True)
+    affiliate_id = models.IntegerField(db_index=True)
     metric = models.ForeignKey(Metric)
     value = models.FloatField()
 
