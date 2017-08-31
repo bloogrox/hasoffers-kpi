@@ -1,3 +1,4 @@
+import datetime
 from hasoffers import Hasoffers
 import sendgrid
 from sendgrid.helpers.mail import Email, Mail, Content, Personalization
@@ -35,6 +36,8 @@ def send_notification(notification, trigger_check, metric_log):
     for macro, value in macros.items():
         message = message.replace(macro, str(value))
         subject = subject.replace(macro, str(value))
+    now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    message += f"<br><br><small>generated at: {now}</small>"
     mail.subject = subject
     mail.add_content(Content("text/html", message))
     personalization = Personalization()
