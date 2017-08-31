@@ -30,10 +30,12 @@ def send_notification(notification, trigger_check, metric_log):
 
     mail = Mail()
     mail.from_email = Email(settings.NETWORK_EMAIL)
-    mail.subject = notification.subject
+    subject = notification.subject
     message = notification.message
     for macro, value in macros.items():
         message = message.replace(macro, str(value))
+        subject = subject.replace(macro, str(value))
+    mail.subject = subject
     mail.add_content(Content("text/html", message))
     personalization = Personalization()
     for email in to_emails:
