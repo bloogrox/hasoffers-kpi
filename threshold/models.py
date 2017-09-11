@@ -26,7 +26,9 @@ class ThresholdManager(models.Manager):
                      .first())
         if not threshold:
             raise Threshold.DoesNotExist(
-                f"no thresholds found for trigger {trigger}")
+                f"no thresholds found for trigger {trigger}, "
+                f"for offer_id={metric_log.offer_id} or "
+                f"affiliate_id={metric_log.affiliate_id}")
         return threshold
 
 
