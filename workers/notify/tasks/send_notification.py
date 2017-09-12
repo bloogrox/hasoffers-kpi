@@ -11,7 +11,8 @@ from stats.models import Offer, Employee
 def send_notification(notification, trigger_check, metric_log):
     print('send_notification starting with params: '
           f'notification_id={metric_log.affiliate_id} '
-          f'trigger check={trigger_check.id}')
+          f'trigger check={trigger_check.id}'
+          f'trigger={trigger_check.trigger}')
 
     to_emails = []
     for receiver in notification.receivers.all():
@@ -48,7 +49,11 @@ def send_notification(notification, trigger_check, metric_log):
     for email in to_emails:
         personalization.add_to(Email(email))
     mail.add_personalization(personalization)
-    sg.client.mail.send.post(request_body=mail.get())
+    response = sg.client.mail.send.post(request_body=mail.get())
+
+    print(f'send_notification: response.status_code={response.status_code}')
+    print(f'send_notification: response.headers={response.headers}')
+    print(f'send_notification: response.body={response.body}')
 
     print('send_notification: '
           f'notification_id={metric_log.affiliate_id} '
