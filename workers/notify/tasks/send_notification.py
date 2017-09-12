@@ -52,8 +52,6 @@ def send_notification(notification, trigger_check, metric_log):
     response = sg.client.mail.send.post(request_body=mail.get())
 
     print(f'send_notification: response.status_code={response.status_code}')
-    print(f'send_notification: response.headers={response.headers}')
-    print(f'send_notification: response.body={response.body}')
 
     print('send_notification: '
           f'notification_id={metric_log.affiliate_id} '
