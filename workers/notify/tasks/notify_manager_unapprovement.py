@@ -28,7 +28,8 @@ def notify_manager_unapprovement(trigger_check, metric_log):
     """
 
     from_email = Email(settings.NETWORK_EMAIL)
-    subject = ('Affiliate was PAUSED due to click cost!')
+    subject = ('Affiliate was PAUSED due to click cost! '
+               f'Offer {metric_log.offer_id}')
     content = Content("text/html", html)
 
     for recipient in Recipient.objects.filter(active=True):
