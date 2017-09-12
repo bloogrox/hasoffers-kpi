@@ -24,6 +24,16 @@ app.autodiscover_tasks(packages=['workers.hasoffers_calls',
                                  'workers.operations'])
 
 
+app.conf.task_routes = {
+    'workers.hasoffers_calls.tasks.*': {'queue': 'hasoffers-calls'},
+    'workers.loaders.tasks.*': {'queue': 'loaders'},
+    'workers.metrics.tasks.*': {'queue': 'metrics'},
+    'workers.notify.tasks.*': {'queue': 'notifications'},
+    'workers.persisters.tasks.*': {'queue': 'persisters'},
+    'workers.trigger_handlers.tasks.*': {'queue': 'triggers'},
+}
+
+
 app.conf.beat_schedule = {
     # 'add-every-5-seconds': {
     #     'task': 'tasks.demo.tasks.add.add',
