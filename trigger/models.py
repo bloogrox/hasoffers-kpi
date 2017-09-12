@@ -15,10 +15,10 @@ class Trigger(models.Model):
 
 class TriggerCheck(models.Model):
 
-    # class Meta:
-    #     index_together = [
-    #         ['trigger', 'offer_id', 'affiliate_id']
-    #     ]
+    class Meta:
+        index_together = [
+            ['trigger', 'offer_id', 'affiliate_id']
+        ]
 
     OK = 'OK'
     PROBLEM = 'PR'
