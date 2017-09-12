@@ -27,7 +27,7 @@ class TriggerCheck(models.Model):
         (PROBLEM, 'PROBLEM')
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     trigger = models.ForeignKey(Trigger)
     status = models.CharField(max_length=2, choices=STATUSES)
     offer_id = models.PositiveIntegerField(db_index=True)
