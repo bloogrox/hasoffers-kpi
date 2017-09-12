@@ -25,7 +25,7 @@ app.autodiscover_tasks(packages=['workers.hasoffers_calls',
 
 
 app.conf.task_routes = {
-    'workers.hasoffers_calls.tasks.*': {'queue': 'hasoffers_calls'},
+    'workers.hasoffers_calls.tasks.*': {'queue': 'hasoffers'},
     'workers.loaders.tasks.*': {'queue': 'loaders'},
     'workers.metrics.tasks.*': {'queue': 'metrics'},
     'workers.notify.tasks.*': {'queue': 'notifications'},
