@@ -42,6 +42,6 @@ app.conf.beat_schedule = {
     # },
     'run-metric-get-pacc': {
         'task': 'workers.metrics.tasks.get_pacc.get_pacc',
-        'schedule': 180
+        'schedule': 120
     },
 }
