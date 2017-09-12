@@ -9,6 +9,10 @@ from stats.models import Offer, Employee
 
 @celery_app.task
 def send_notification(notification, trigger_check, metric_log):
+    print('send_notification starting with params: '
+          f'notification_id={metric_log.affiliate_id} '
+          f'trigger check={trigger_check.id}')
+
     to_emails = []
     for receiver in notification.receivers.all():
         if receiver.name == 'Affiliate Manager':
