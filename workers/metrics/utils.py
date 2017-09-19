@@ -11,9 +11,12 @@ def offer_exists_and_monitoring_true(offer_id):
 
 def get_offer_min_clicks(offer_id):
     from stats.models import Offer
+    from metric.models import MinClicks
 
     try:
         offer = Offer.objects.get(pk=offer_id)
-        return offer.min_clicks
     except Offer.DoesNotExist:
         return 0
+    else:
+        obj = MinClicks.objects.for_offer(offer.id, offer.categories)
+        return obj.value

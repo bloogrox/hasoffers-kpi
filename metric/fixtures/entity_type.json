@@ -1,0 +1,5 @@
+[
+  {"model": "metric.EntityType", "fields": {"name": "General", "priority": 1}},
+  {"model": "metric.EntityType", "fields": {"name": "OfferCategory", "priority": 2}},
+  {"model": "metric.EntityType", "fields": {"name": "Offer", "priority": 3}}
+]

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'threshold',
     'actions',
     'trigger',
+    'metric',
 
     'django_celery_results',
     'rangefilter',
