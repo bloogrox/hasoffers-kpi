@@ -24,6 +24,14 @@ def send_notification(notification, trigger_check, metric_log):
                              else employee.secondary_email)
 
             to_emails.append(email_address)
+        if receiver.name == 'Account Manager':
+            ho_offer = get_offer(metric_log.offer_id)
+            manager_id = ho_offer.Advertiser['account_manager_id']
+            employee = Employee.objects.get(pk=manager_id)
+            email_address = (employee.email
+                             if not employee.use_secondary
+                             else employee.secondary_email)
+            to_emails.append(email_address)
 
     macros = {
         '{value}': metric_log.value,
@@ -68,3 +76,16 @@ def get_affiliate(affiliate_id: int):
                            fields=['id', 'account_manager_id'])
                  .extract_one())
     return affiliate
+
+
+def get_offer(offer_id: int):
+    api = Hasoffers(network_token=settings.HASOFFERS_NETWORK_TOKEN,
+                    network_id=settings.HASOFFERS_NETWORK_ID,
+                    proxies=settings.PROXIES,
+                    retry_count=20)
+    offer = (api.Offer
+             .findById(id=offer_id,
+                       fields=['id'],
+                       contain=['Advertiser'])
+             .extract_one())
+    return offer
