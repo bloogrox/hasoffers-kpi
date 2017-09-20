@@ -13,18 +13,18 @@ class EntityType(models.Model):
 class Manager(models.Manager):
     def for_offer(self, offer_id, offer_categories):
         min_clicks = (super(Manager, self).get_queryset()
-                     .filter(Q(entity_type__name="Offer",
-                               entity_id=offer_id) |
-                             Q(entity_type__name="OfferCategory",
-                               entity_id__in=offer_categories) |
-                             Q(entity_type__name="General"))
-                     .order_by('-entity_type__priority')
-                     .first())
+                      .filter(Q(entity_type__name="Offer",
+                                entity_id=offer_id) |
+                              Q(entity_type__name="OfferCategory",
+                                entity_id__in=offer_categories) |
+                              Q(entity_type__name="General"))
+                      .order_by('-entity_type__priority')
+                      .first())
         if not min_clicks:
             raise MinClicks.DoesNotExist(
                 f"no min_click found "
                 f"for offer_id={offer_id} or "
-                f"or category_id={category_id}")
+                f"or category_id={offer_categories}")
         return min_clicks
 
 
