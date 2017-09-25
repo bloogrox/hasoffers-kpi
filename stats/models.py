@@ -33,12 +33,10 @@ class Offer(models.Model):
 
     @property
     def categories(self):
-        try:
+        if self.categories_str:
             return [int(cat_str)
                     for cat_str in self.categories_str.split(',')]
-        except ValueError:
-            print("categories_str parse exception: "
-                  f"offer_id={self.id} categories_str={self.categories_str}")
+        else:
             return []
 
     monitoring = models.BooleanField(default=True)
