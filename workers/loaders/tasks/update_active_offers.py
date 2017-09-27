@@ -28,5 +28,6 @@ def update_active_offers():
         except Offer.DoesNotExist:
             continue
 
+        db_offer.name = offer.name
         db_offer.categories_str = ','.join(offer_categories_id)
         db_offer.save()
