@@ -18,7 +18,7 @@ def load_new_goals():
     max_goal_id = max_goal.id if max_goal else 0
 
     params = dict(
-        fields=['id', 'name', 'offer_id'],
+        fields=['id', 'name', 'offer_id', 'status'],
         contain=['Offer'],
         filters={'id': {'GREATER_THAN': max_goal_id}},
         limit=1000,
@@ -31,4 +31,5 @@ def load_new_goals():
         db_goal.id = ho_goal.id
         db_goal.name = ho_goal.name
         db_goal.offer_id = ho_goal.offer_id
+        db_goal.status = ho_goal.status
         db_goal.save()

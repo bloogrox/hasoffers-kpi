@@ -11,10 +11,15 @@ def persist_goal(data):
         data: Dict with fields id, name, offer_id
     """
     try:
-        Goal.objects.get(pk=data['id'])
+        goal = Goal.objects.get(pk=data['id'])
     except Goal.DoesNotExist:
         db_goal = Goal()
         db_goal.id = data['id']
         db_goal.name = data['name']
         db_goal.offer_id = data['offer_id']
+        db_goal.status = data['status']
         db_goal.save()
+    else:
+        goal.name = data['name']
+        goal.status = data['status']
+        goal.save()

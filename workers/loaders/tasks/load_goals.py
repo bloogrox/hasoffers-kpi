@@ -14,13 +14,17 @@ def load_goals():
                     proxies=settings.PROXIES)
 
     params = dict(
-        fields=['id', 'name', 'offer_id'],
+        fields=['id', 'name', 'offer_id', 'status'],
         contain=['Offer'],
         limit=10000,
     )
     resp = api.Goal.findAll(**params)
 
     for ho_goal in resp.extract_all():
-        goal = {'id': ho_goal.id, 'name': ho_goal.name,
-                'offer_id': ho_goal.offer_id}
+        goal = {
+            'id': ho_goal.id,
+            'name': ho_goal.name,
+            'offer_id': ho_goal.offer_id,
+            'status': ho_goal.status
+        }
         persist_goal.delay(goal)

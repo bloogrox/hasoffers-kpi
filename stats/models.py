@@ -42,8 +42,16 @@ class Offer(models.Model):
 
 
 class Goal(models.Model):
+
+    STATUSES = (
+        ('active', 'active'),
+        ('deleted', 'deleted')
+    )
+
     name = models.CharField(max_length=128)
     offer = models.ForeignKey(Offer)
+    status = models.CharField(max_length=7, choices=STATUSES,
+                              default='active')
 
     def __str__(self):
         return f'{self.id}: {self.name}'
