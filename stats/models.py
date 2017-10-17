@@ -17,17 +17,6 @@ class MetricLog(models.Model):
 
 
 class Offer(models.Model):
-    ACTION_OFF = 'off'
-    ACTION_ONLY_EMAIL = 'only_email'
-    ACTION_PAUSE_IMMEDIATELY = 'pause_immediately'
-    ACTION_PAUSE_IN_24H = 'pause_in_24h'
-    ACTIONS = (
-        (ACTION_OFF, 'Off',),
-        (ACTION_ONLY_EMAIL, 'Only Email',),
-        (ACTION_PAUSE_IMMEDIATELY, 'Pause Immediately',),
-        (ACTION_PAUSE_IN_24H, 'Pause in 24h',)
-    )
-
     name = models.TextField()
     categories_str = models.TextField(default="")
 
