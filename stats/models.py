@@ -40,10 +40,6 @@ class Offer(models.Model):
             return []
 
     monitoring = models.BooleanField(default=True)
-    notify_affiliate = models.BooleanField('Notify Affiliate?',
-                                           default=False)
-    action = models.CharField(max_length=30, choices=ACTIONS,
-                              default=ACTION_OFF)
     gr = models.FloatField(verbose_name='Minimal Goal Conversion Threshold',
                            default=0.0, blank=True, null=True)
     one_goal = models.ForeignKey('Goal', related_name='main_offer',
