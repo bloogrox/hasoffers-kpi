@@ -5,6 +5,7 @@ from sendgrid.helpers.mail import Email, Mail, Content, Personalization
 from kpi_notificator import celery_app
 from django.conf import settings
 from stats.models import Offer, Employee
+from mailings.models import Recipient
 
 
 @celery_app.task
@@ -32,6 +33,9 @@ def send_notification(notification, trigger_check, metric_log):
                              if not employee.use_secondary
                              else employee.secondary_email)
             to_emails.append(email_address)
+        if receiver.name == 'Administrators':
+            for recipient in Recipient.objects.filter(active=True):
+                to_emails.append(recipient.email)
 
     macros = {
         '{value}': metric_log.value,
