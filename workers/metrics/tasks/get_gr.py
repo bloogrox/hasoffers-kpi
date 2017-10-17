@@ -93,7 +93,7 @@ def get_gr():
         offer = Offer.objects.get(pk=offer_id)
 
         # get stats for the offer
-        stats = get_stats(offer_id, offer.one_goal_id, offer.lookback)
+        stats = get_stats(offer_id, offer.one_goal_id, 1)
 
         out = (seq(stats)
                .map(lambda row: update_in(row, ['conversions'], int))

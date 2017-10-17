@@ -47,8 +47,6 @@ class Offer(models.Model):
 
     min_conversions = models.PositiveIntegerField(
         verbose_name='Min Conversions', default=0)
-    lookback = models.PositiveIntegerField(
-        verbose_name='Lookback Period (days)', default=1)
 
     min_clicks = models.PositiveIntegerField(default=0)
 
