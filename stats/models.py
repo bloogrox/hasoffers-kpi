@@ -48,8 +48,6 @@ class Offer(models.Model):
     min_conversions = models.PositiveIntegerField(
         verbose_name='Min Conversions', default=0)
 
-    min_clicks = models.PositiveIntegerField(default=0)
-
     def __str__(self):
         return f'{self.id}: {self.name}'
 
