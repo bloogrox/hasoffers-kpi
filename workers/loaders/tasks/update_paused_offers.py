@@ -1,7 +1,6 @@
 import datetime
 from kpi_notificator import celery_app
 
-from django.conf import settings
 from stats.models import Offer
 
 
