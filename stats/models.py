@@ -17,6 +17,15 @@ class MetricLog(models.Model):
 
 
 class Offer(models.Model):
+
+    STATUSES = (
+        ('active', 'active'),
+        ('pending', 'pending'),
+        ('paused', 'paused'),
+        ('expired', 'expired'),
+        ('deleted', 'deleted')
+    )
+
     name = models.TextField()
     categories_str = models.TextField(default="")
 
@@ -27,6 +36,8 @@ class Offer(models.Model):
                     for cat_str in self.categories_str.split(',')]
         else:
             return []
+
+    status = models.CharField(max_length=7, choices=STATUSES, default='active')
 
     monitoring = models.BooleanField(default=True)
     gr = models.FloatField(verbose_name='Minimal Goal Conversion Threshold',
