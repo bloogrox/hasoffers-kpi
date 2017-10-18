@@ -7,7 +7,7 @@ from stats.forms import OfferForm
 
 @admin.register(stats.models.Offer)
 class OfferAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'monitoring',)
+    list_display = ('id', 'name', 'monitoring', 'status')
     search_fields = ('id', 'name')
     list_filter = ('monitoring', 'status')
     form = OfferForm
