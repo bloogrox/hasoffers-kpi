@@ -8,3 +8,4 @@ from .load_new_offers import load_new_offers  # noqa
 from .load_offer import load_offer  # noqa
 from .load_offer_caps import load_offer_caps  # noqa
 from .update_active_offers import update_active_offers  # noqa
+from .update_paused_offers import update_paused_offers  # noqa
