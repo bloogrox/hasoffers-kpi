@@ -38,7 +38,7 @@ class Offer(models.Model):
             return []
 
     status = models.CharField(max_length=7, choices=STATUSES,
-                              default='active')
+                              default='active', db_index=True)
     last_active_at = models.DateTimeField()
 
     monitoring = models.BooleanField(default=True)
