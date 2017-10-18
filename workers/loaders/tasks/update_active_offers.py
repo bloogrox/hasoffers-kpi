@@ -1,3 +1,4 @@
+import datetime
 from hasoffers import Hasoffers
 from kpi_notificator import celery_app
 
@@ -21,13 +22,15 @@ def update_active_offers():
     resp = api.Offer.findAll(**params)
 
     for offer in resp.extract_all():
-        offer_categories_id = list(dict(offer.OfferCategory).keys())
+        offer_categories_ids = list(dict(offer.OfferCategory).keys())
 
         try:
             db_offer = Offer.objects.get(pk=offer.id)
         except Offer.DoesNotExist:
-            continue
-
-        db_offer.name = offer.name
-        db_offer.categories_str = ','.join(offer_categories_id)
-        db_offer.save()
+            pass
+        else:
+            db_offer.name = offer.name
+            db_offer.categories_str = ','.join(offer_categories_ids)
+            db_offer.status = 'active'
+            db_offer.last_active_at = datetime.datetime.utcnow()
+            db_offer.save()
