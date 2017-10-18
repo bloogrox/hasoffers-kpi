@@ -45,7 +45,8 @@ app.conf.beat_schedule = {
         'schedule': 120
     },
     'daily-update-offer-status': {
-        'task': 'workers.loaders.tasks.update_paused_offers',
+        'task': ('workers.loaders.tasks.update_paused_offers'
+                 '.update_paused_offers'),
         'schedule': 60 * 60 * 24
     }
 }
