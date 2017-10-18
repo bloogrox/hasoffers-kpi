@@ -37,7 +37,9 @@ class Offer(models.Model):
         else:
             return []
 
-    status = models.CharField(max_length=7, choices=STATUSES, default='active')
+    status = models.CharField(max_length=7, choices=STATUSES,
+                              default='active')
+    last_active_at = models.DateTimeField()
 
     monitoring = models.BooleanField(default=True)
     gr = models.FloatField(verbose_name='Minimal Goal Conversion Threshold',
