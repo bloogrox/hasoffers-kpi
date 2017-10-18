@@ -44,4 +44,8 @@ app.conf.beat_schedule = {
         'task': 'workers.metrics.tasks.get_pacc.get_pacc',
         'schedule': 120
     },
+    'daily-update-offer-status': {
+        'task': 'workers.loaders.tasks.update_paused_offers',
+        'schedule': 60 * 60 * 24
+    }
 }
