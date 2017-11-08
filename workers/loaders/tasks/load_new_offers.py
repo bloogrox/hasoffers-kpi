@@ -30,6 +30,7 @@ def load_new_offers():
         data = {
             'id': ho_offer.id,
             'name': ho_offer.name,
-            'categories_str': categories_str
+            'categories_str': categories_str,
+            'last_active_at': datetime.datetime.utcnow()
         }
         persist_offer.delay(data)
