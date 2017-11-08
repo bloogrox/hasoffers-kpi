@@ -1,3 +1,4 @@
+import datetime
 from hasoffers import Hasoffers
 from stats.models import Offer
 from kpi_notificator import celery_app
