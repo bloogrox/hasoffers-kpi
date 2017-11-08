@@ -68,7 +68,10 @@ def get_tracking_link(offer_id: int,
                       client: Hasoffers) -> str:
     params = dict(offer_id=offer_id, affiliate_id=affiliate_id)
     resp = client.Offer.generateTrackingLink(**params)
-    return resp.data["click_url"]
+    try:
+        return resp.data["click_url"]
+    except:
+        return ''
 
 
 def get_affiliate_emails(affiliate_id: int, client: Hasoffers) -> List[str]:
